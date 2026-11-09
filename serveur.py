@@ -72,11 +72,26 @@ def liste(v, n, bas, haut):
 def records_propres(v):
     out = {}
     if isinstance(v, dict):
-        for k, ms in list(v.items())[:40]:
-            j = entier(k, -1, 99, -1)
+        for k, ms in list(v.items())[:400]:
+            j = entier(k, -1, 999, -1)
             t = entier(ms, 0, 3600000)
-            if 0 <= j < 36 and t > 0:
+            if 0 <= j < 400 and t > 0:
                 out[str(j)] = t
+    return out
+
+
+SKIN_OK = {"pat": ("uni", "bande", "bi", "tri", "degrade", "damier", "flammes", "camo", "chrome"),
+           "trail": ("none", "classic", "glow", "rainbow", "fire", "electric", "stars"),
+           "glow": ("none", "on", "pulse", "rainbow"),
+           "smoke": ("white", "black", "color", "rainbow", "sparks")}
+
+
+def skin_propre(v):
+    """Apparence de la voiture (boutique) : seules les valeurs connues passent."""
+    v = v if isinstance(v, dict) else {}
+    out = {k: (v.get(k) if v.get(k) in ok else ok[0 if k != "trail" else 1]) for k, ok in SKIN_OK.items()}
+    for k in ("c2", "c3"):
+        out[k] = str(v.get(k)) if RE_COULEUR.match(str(v.get(k) or "")) else "#ffffff"
     return out
 
 
@@ -130,7 +145,7 @@ def en_ligne(sauf):
         if pid == sauf or not j or maintenant - e["recu"] > EN_LIGNE:
             continue
         out.append({"id": pid, "name": j["name"], "tag": j["tag"], "color": j["color"], "cls": j["cls"],
-                    "sel": e["sel"], "lv": e["lv"], "b": e["b"], "t": e["t"], "race": e["race"],
+                    "sel": e["sel"], "lv": e["lv"], "b": e["b"], "t": e["t"], "race": e["race"], "sk": e.get("sk"), "d": e.get("d", 0),
                     "age": round(maintenant - e["recu"], 3)})
     return out
 
@@ -254,7 +269,8 @@ class Requete(BaseHTTPRequestHandler):
             else:
                 direct[pid] = {"sel": entier(d.get("sel"), 0, 35), "lv": liste(d.get("lv"), 3, 0, 100),
                                "b": liste(d.get("b"), 3, 0, 30), "t": nombre(d.get("t"), 0, 3600),
-                               "race": 1 if d.get("race") else 0, "recu": time.time()}
+                               "race": 1 if d.get("race") else 0, "sk": skin_propre(d.get("sk")), "d": entier(d.get("d"), 0, 7),
+                               "recu": time.time()}
                 corps = {"ok": True, "tag": j["tag"], "dirVer": version_annuaire, "online": en_ligne(pid)}
         if corps is None:
             return self.envoyer(503, {"error": "serveur plein"})
