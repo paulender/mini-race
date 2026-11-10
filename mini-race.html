@@ -471,6 +471,42 @@ svg{display:block}
 .invite .t{font:800 17px/1.1 var(--f-d);text-transform:uppercase;letter-spacing:.03em}
 .invite p{font-size:13px;color:#c3cad4;margin:0}
 .invite .mrow .mbtn{padding:9px;font-size:14px}
+/* chat du paddock et emotes */
+.chatbtn{position:relative}.chatbtn.on{color:var(--fg);border-color:var(--cyan)}
+.cbadge{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;border-radius:9px;background:var(--red);color:#fff;font:800 10px/17px var(--f-b);font-style:normal;text-align:center;padding:0 4px;box-shadow:0 0 8px rgba(255,77,90,.6)}
+.chat{position:fixed;right:16px;bottom:16px;z-index:45;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 110px));background:var(--panel);border:1px solid var(--line2);border-top:3px solid var(--cyan);display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.55);animation:pop .2s ease-out}
+.ch-h{display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid var(--line)}
+.ch-h b{font:800 15px var(--f-d);text-transform:uppercase;letter-spacing:.04em;margin-right:auto}
+.ch-f{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);cursor:pointer}
+.ch-x{font-size:22px;line-height:1;color:var(--muted);padding:0 6px}.ch-x:hover{color:var(--fg)}
+.ch-l{list-style:none;margin:0;padding:8px 10px;flex:1;overflow:auto;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}
+.ch-l li{display:grid;grid-template-columns:8px minmax(0,1fr) auto;gap:7px;align-items:start;font-size:13px}
+.ch-l li>i{width:8px;height:8px;border-radius:50%;margin-top:5px}
+.ch-l .who{font-weight:700;font-size:12.5px}.ch-l .who small{font:500 10px var(--f-m);color:var(--muted);margin-left:1px}.ch-l .who em{font:600 10px var(--f-b);font-style:normal;color:var(--purple);margin-left:6px}
+.ch-l li.me .who{color:var(--accent)}.ch-l li.fr .who{color:var(--money)}
+.ch-l .tx{display:block;color:#d6dce4;overflow-wrap:anywhere;line-height:1.3}
+.ch-l .r{display:flex;align-items:center;gap:2px}.ch-l time{font:500 10px var(--f-m);color:var(--dim)}
+.ch-l .mute{color:var(--dim);font-size:13px;padding:0 3px;opacity:0}.ch-l li:hover .mute{opacity:1}.ch-l .mute:hover{color:var(--red)}
+.ch-l li.empty{display:block;color:var(--muted);font-size:12.5px;text-align:center;padding:24px 8px}
+.emo{font-size:26px;line-height:1.15;display:inline-block;margin-top:2px}
+.emo.txt{font:800 italic 15px/1 var(--f-d);color:#111;background:var(--ec);padding:5px 10px;clip-path:polygon(8% 0,100% 0,92% 100%,0 100%)}
+.ch-emo,.emopop{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:8px;background:var(--panel2)}
+.ch-emo{border-top:1px solid var(--line)}
+.ch-emo button,.emopop button{aspect-ratio:1;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);font-size:20px;position:relative;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+.ch-emo button:hover,.emopop button:hover{border-color:var(--accent)}
+.ch-emo button b,.emopop button b{font:800 italic 10px/1 var(--f-d);color:#111;padding:3px 3px;transform:rotate(-8deg)}
+.ch-emo button.lk,.emopop button.lk{opacity:.45}
+.ch-emo button i,.emopop button i{position:absolute;bottom:1px;right:2px;font:700 8px var(--f-m);font-style:normal;color:var(--purple)}
+.ch-in{display:flex;gap:6px;padding:8px;border-top:1px solid var(--line)}
+.ch-in input{flex:1;min-width:0;background:var(--bg2);border:1px solid var(--line2);color:var(--fg);padding:9px 10px;font:500 14px var(--f-b)}
+.ch-in input:focus{outline:1px solid var(--cyan)}
+.ch-eb{font-size:21px;padding:0 6px;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+.ch-s{background:var(--cyan);color:#111;padding:0 13px;font:800 13px var(--f-d);text-transform:uppercase;letter-spacing:.04em}
+.ch-n{font-size:10.5px;color:var(--dim);padding:0 10px 8px}
+.emopop{position:absolute;right:12px;bottom:58px;width:min(330px,calc(100% - 24px));border:1px solid var(--line2);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.cats.grp button{font-size:13.5px;padding:6px 12px}
+.cats.grp button.on{background:var(--accent);border-color:var(--accent);color:#111}
+@media (max-width:600px){ .chat{right:8px;left:8px;bottom:8px;width:auto;height:min(72vh,540px)} .emopop{grid-template-columns:repeat(6,1fr);bottom:52px} }
 /* écran titre : l'emblème arrive en tournant, reflet qui passe, traînées de vitesse en fond */
 .splash{position:fixed;inset:0;z-index:80;display:grid;place-items:center;overflow:hidden;cursor:pointer;background:radial-gradient(ellipse at 50% 42%,#1d2433 0%,#0a0c0f 72%);transition:opacity .45s ease,visibility .45s}
 .splash.out{opacity:0;visibility:hidden}
@@ -555,6 +591,7 @@ svg{display:block}
     <button class="netchip" id="netChip" title="Serveur multijoueur">Hors ligne</button>
     <button class="pchip" id="btnProfile" title="Profil : pseudo et couleur"><i id="pDot"></i><span id="pName">Pilote</span></button>
     <span class="dbg" id="dbgChip" hidden>Mode debug</span>
+    <button class="iconbtn chatbtn" id="btnChat" title="Chat du paddock"><span data-ico="chat"></span><i class="cbadge" id="chatBadge" hidden>0</i></button>
     <button class="iconbtn" id="btnSave" title="Sauvegarde : télécharger ou restaurer ta partie" data-ico="save"></button>
     <button class="iconbtn" id="btnReset" title="Réinitialiser la partie" data-ico="reset"></button>
   </header>
@@ -583,7 +620,8 @@ svg{display:block}
       <div class="hud h-tc panel-g" id="hEnv">—</div>
       <div class="hud h-bl panel-g" id="sectors"></div>
       <button class="hud cuppop" id="cupPop" hidden><span data-ico="trophy"></span><span id="cupPopT">Coupe disponible</span></button>
-      <div class="hud h-br"><button class="hbtn" id="btnSnd" title="Effets sonores"><span data-ico="snd"></span><span>Son</span></button><button class="hbtn" id="btnMus" title="Musique du jeu"><span data-ico="mus"></span><span>Musique</span></button><button class="hbtn" id="btnGh" title="Voir les voitures de tes amis"><span data-ico="ghost"></span><span>Amis</span></button><button class="hbtn" id="btnCam"><span data-ico="cam"></span><span>Caméra</span></button><button class="hbtn" id="btnFx"><span data-ico="fx"></span><span>Effets</span></button></div>
+      <div class="hud h-br"><button class="hbtn" id="btnSnd" title="Effets sonores"><span data-ico="snd"></span><span>Son</span></button><button class="hbtn" id="btnMus" title="Musique du jeu"><span data-ico="mus"></span><span>Musique</span></button><button class="hbtn" id="btnEmo" title="Envoyer une emote"><span data-ico="emo"></span><span>Emote</span></button><button class="hbtn" id="btnGh" title="Voir les voitures de tes amis"><span data-ico="ghost"></span><span>Amis</span></button><button class="hbtn" id="btnCam"><span data-ico="cam"></span><span>Caméra</span></button><button class="hbtn" id="btnFx"><span data-ico="fx"></span><span>Effets</span></button></div>
+      <div class="hud emopop" id="emoPop" hidden></div>
       <div class="hud lights" id="lights" hidden><i></i><i></i><i></i><i></i><i></i></div>
       <div class="hud tower panel-g" id="tower" hidden><div class="th"><span id="twTitle">Coupe</span><span id="twLap">1/3</span></div><ol id="twList"></ol><div class="ctrl"><button data-rs="1" class="on">×1</button><button data-rs="2">×2</button><button data-rs="4">×4</button><button class="ab" id="raceAbort">Abandon</button></div></div>
       <div id="bannerHost"></div>
@@ -608,7 +646,7 @@ svg{display:block}
     <section class="sec" data-r="champ" id="secChamp">
       <div class="sec-h"><div style="min-width:0"><div class="h">Championnats</div><div class="eyebrow" id="chFor">—</div></div></div>
       <div class="cups" id="cups"></div>
-      <p class="note">Chaque coupe s'ouvre quand le total de tes améliorations sur ce circuit atteint 75, 150, 225 puis 300 points. Les 7 adversaires ont le même total : pour gagner, il faut être un peu au-dessus. Seuls les 3 premiers gagnent un prix. Première victoire : +1 trophée (+5 % de gains pour toujours) et des jetons. Une coupe déjà gagnée rapporte beaucoup moins quand on la rejoue. Avant le départ, ajoute tes amis sur la grille avec + : ceux qui sont en ligne courent en direct avec toi.</p>
+      <p class="note">Chaque coupe s'ouvre quand le total de tes améliorations sur ce circuit atteint 75, 150, 225 puis 300 points. Avec 25 niveaux partout, tu gagnes la Bronze ; 50 partout pour l'Argent, 75 pour l'Or et 100 pour le Diamant. Seuls les 3 premiers gagnent un prix. Première victoire : +1 trophée (+5 % de gains pour toujours) et des jetons. Une coupe déjà gagnée rapporte beaucoup moins quand on la rejoue. Avant le départ, ajoute tes amis sur la grille avec + : ceux qui sont en ligne courent en direct avec toi.</p>
     </section>
     <section class="sec" data-r="rank" id="secRank">
       <div class="sec-h"><div style="min-width:0"><div class="h">Classement</div><div class="eyebrow" id="rkFor">—</div></div><div class="seg2" id="rkMode"><button data-k="f" class="on">Amis</button><button data-k="a">Paddock</button></div></div>
@@ -623,7 +661,8 @@ svg{display:block}
     </section>
     <section class="sec" data-r="store" id="secStore">
       <div class="sec-h"><div style="min-width:0"><div class="h">Boutique</div><div class="eyebrow">Personnalise ta voiture</div></div><div class="tok">◆ <span id="tokN">0</span></div></div>
-      <div class="cats" id="shopCats"><button data-c="pat" class="on">Peinture</button><button data-c="body">Carrosserie</button><button data-c="trail">Traînée</button><button data-c="glow">Néon</button><button data-c="smoke">Fumée</button><button data-c="snd">Son moteur</button><button data-c="horn">Klaxon</button></div>
+      <div class="cats grp" id="shopGroups"></div>
+      <div class="cats" id="shopCats"></div>
       <div class="cats fam" id="shopFam" hidden></div>
       <p class="note" id="shopHint"></p>
       <div class="shopgrid" id="shopGrid"></div>
@@ -635,6 +674,13 @@ svg{display:block}
   <nav class="tabs" id="tabs"><button data-t="garage" class="on">Garage</button><button data-t="shop">Atelier</button><button data-t="champ">Coupes</button><button data-t="rank">Classement</button><button data-t="store">Boutique</button></nav>
 </div>
 <div class="invite" id="invite" hidden></div>
+<aside class="chat" id="chat" hidden aria-label="Chat du paddock">
+  <div class="ch-h"><b>Chat du paddock</b><label class="ch-f"><input type="checkbox" id="chatFr"> Amis seulement</label><button class="ch-x" id="chatX" aria-label="Fermer le chat">×</button></div>
+  <ol class="ch-l" id="chatL"></ol>
+  <div class="ch-emo" id="chatEmo" hidden></div>
+  <form class="ch-in" id="chatF"><button type="button" class="ch-eb" id="chatEB" title="Emotes">😀</button><input id="chatT" maxlength="140" placeholder="Écris un message…" autocomplete="off" aria-label="Message"><button class="ch-s" type="submit">Envoyer</button></form>
+  <p class="ch-n" id="chatN"></p>
+</aside>
 <div class="splash" id="splash" role="dialog" aria-label="Mini Race">
   <div class="sp-streaks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="sp-in">
@@ -732,6 +778,8 @@ const ICONS={
  ghost:'<path d="M6 20V10a6 6 0 0 1 12 0v10l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5z"/><circle cx="10" cy="10.5" r="1"/><circle cx="14" cy="10.5" r="1"/>',
  snd:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/>',
  mus:'<path d="M9 18V5.5l11-2.5v13"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/>',
+ chat:'<path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M8 9.5h8M8 12.5h5"/>',
+ emo:'<circle cx="12" cy="12" r="9"/><path d="M8.3 14.2a4.6 4.6 0 0 0 7.4 0"/><path d="M9 9.6v.6M15 9.6v.6"/>',
  save:'<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/>',
 };
 const ico=k=>`<svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
@@ -837,7 +885,13 @@ const racingLat=(tr,fi,lm)=>clamp(tr.KS[((Math.floor(fi+30/tr.ds)%tr.n)+tr.n)%tr
 // ================= État =================
 let S;
 const newSlot=u=>({u,lv:[0,0,0,0],t:0,laps:0,earned:0,cw:[0,0,0,0],cr:[0,0,0,0],dl:0});
-const SHOP_EQ=()=>({pat:'uni',c2:'#ffffff',c3:'#1d1f24',trail:'classic',glow:'none',smoke:'white',body:'std',horn:'none',snd:{}});
+const SHOP_EQ=()=>({pat:'uni',c2:'#ffffff',c3:'#1d1f24',trail:'classic',glow:'none',smoke:'white',body:'std',horn:'none',snd:{},stk:'none',plate:'std',title:'none',fete:'confettis',num:-1,helm:'#ffffff'});
+// emotes du chat (les 6 premières sont gratuites, les autres se débloquent dans la boutique)
+const EMOTES=[{id:'gg',t:'GG',c:'#ffd23f',p:0},{id:'pouce',e:'👍',p:0},{id:'lol',e:'😂',p:0},{id:'drapeau',e:'🏁',p:0},{id:'zzz',e:'💤',p:0},{id:'merci',t:'MERCI',c:'#4fe08a',p:0},
+  {id:'feu',e:'🔥',p:20},{id:'cool',e:'😎',p:20},{id:'wow',e:'😮',p:20},{id:'coeur',e:'❤️',p:20},{id:'rage',e:'😡',p:20},{id:'pleure',e:'😭',p:20},
+  {id:'banane',e:'🍌',p:30},{id:'fusee',e:'🚀',p:30},{id:'coupe',e:'🏆',p:40},{id:'vroum',t:'VROUM',c:'#ff9f1c',p:40}];
+const EMO=Object.fromEntries(EMOTES.map(e=>[e.id,e]));
+const TITLES={none:'',rookie:'Rookie',dimanche:'Pilote du dimanche',banane:'Fan de bananes',as:'As du volant',afk:'AFK pro',drift:'Roi du drift',records:'Chasseur de records',legende:'Légende du paddock',vitesse:'Dieu de la vitesse'};
 const newTag=()=>String(Math.floor(Math.random()*10000)).padStart(4,'0');
 const fullTag=(n,t)=>t?n+'#'+t:n;
 function freshState(){
@@ -1484,7 +1538,7 @@ function drawCar(g,x,y,a,col,kind,o){
   const L=CAR_L[kind]||11.5, sk=o.sk&&o.sk.pat&&o.sk.pat!=='uni'?o.sk:null, FB=funOf(o.sk);
   if(!o.noShadow){ g.save(); g.translate(x+2.5,y+3.5); g.rotate(a); g.fillStyle='rgba(0,0,0,.38)'; rr(g,-L,-6.2,2*L,12.4,4); g.fill(); g.restore(); }
   g.save(); g.translate(x,y); g.rotate(a);
-  if(FB){ drawFun(g,FB,kind,col,o.sk,o); g.restore(); if(o.me){ const r=16+Math.sin((o.t||0)*6)*1.5; g.strokeStyle='#ffd23f'; g.lineWidth=1.6; g.beginPath(); g.arc(x,y,r,0,7); g.stroke(); } return; }
+  if(FB){ drawFun(g,FB,kind,col,o.sk,o); decoCar(g,kind,o.sk,true); g.restore(); if(o.me){ const r=16+Math.sin((o.t||0)*6)*1.5; g.strokeStyle='#ffd23f'; g.lineWidth=1.6; g.beginPath(); g.arc(x,y,r,0,7); g.stroke(); } return; }
   const hi=shade(col,.38), lo=shade(col,-.38), body=w=>{ const gr=g.createLinearGradient(0,-w,0,w); gr.addColorStop(0,lo); gr.addColorStop(.5,hi); gr.addColorStop(1,lo); return gr; };
   const pattern=(Lb,Wb)=>{ if(!sk) return; g.save(); bodyPath(g,kind,Lb,Wb); g.clip(); paintPattern(g,sk,Lb,Wb,col); g.restore(); };
   g.fillStyle=TYRE;
@@ -1494,7 +1548,7 @@ function drawCar(g,x,y,a,col,kind,o){
     g.fillStyle=body(6); bodyPath(g,'kart'); g.fill(); pattern(8.5,6.3);
     g.fillStyle='#8a9099'; g.fillRect(-8.3,1,3,3.4);
     g.fillStyle='#1d2230'; g.beginPath(); g.ellipse(-2,0,2.6,4,0,0,7); g.fill();
-    const hg=g.createRadialGradient(-1.4,-1,.4,-.6,0,3); hg.addColorStop(0,'#fff'); hg.addColorStop(1,sk?sk.c2:shade(col,.1)); g.fillStyle=hg; g.beginPath(); g.arc(-.6,0,2.7,0,7); g.fill();
+    const hg=g.createRadialGradient(-1.4,-1,.4,-.6,0,3); hg.addColorStop(0,'#fff'); hg.addColorStop(1,(o.sk&&o.sk.helm)||(sk?sk.c2:shade(col,.1))); g.fillStyle=hg; g.beginPath(); g.arc(-.6,0,2.7,0,7); g.fill();
     g.fillStyle='#111'; g.fillRect(1.2,-1.6,1,3.2);
   } else if(kind==='formula'){
     rr(g,-10.8,-7.4,5.6,3.4,1); g.fill(); rr(g,-10.8,4,5.6,3.4,1); g.fill(); rr(g,5.4,-6.8,4.6,3,1); g.fill(); rr(g,5.4,3.8,4.6,3,1); g.fill();
@@ -1502,7 +1556,7 @@ function drawCar(g,x,y,a,col,kind,o){
     g.fillStyle=sk?sk.c2:col; g.fillRect(10.4,-6.9,2.4,13.8); g.fillStyle='#14171c'; g.fillRect(12.6,-6.9,.9,13.8);
     g.fillStyle=body(4.2); bodyPath(g,'formula'); g.fill(); pattern(13,4.2);
     g.fillStyle='#0d1118'; g.beginPath(); g.ellipse(-.5,0,3.3,1.9,0,0,7); g.fill();
-    g.fillStyle='#fff'; g.beginPath(); g.arc(-1,0,1.5,0,7); g.fill();
+    g.fillStyle=(o.sk&&o.sk.helm)||'#fff'; g.beginPath(); g.arc(-1,0,1.5,0,7); g.fill();
     g.strokeStyle='#22262d'; g.lineWidth=.8; g.beginPath(); g.arc(-.5,0,2.6,-1.2,1.2); g.stroke();
     g.fillStyle='#14171c'; g.fillRect(-14,-5.8,2.6,11.6); g.fillStyle=sk?sk.c2:col; g.fillRect(-14,-5.8,2.6,1.3); g.fillRect(-14,4.5,2.6,1.3);
     g.fillStyle=o.brake?'#ff3b3b':'#5a0d12'; g.fillRect(-14.8,-.6,.9,1.2);
@@ -1513,7 +1567,7 @@ function drawCar(g,x,y,a,col,kind,o){
     g.fillStyle='#22262d'; g.fillRect(-5.5,-1.1,4,2.2);
     g.strokeStyle='#2a2e35'; g.lineWidth=.8; g.beginPath(); g.moveTo(4,-3.3); g.lineTo(4,3.3); g.stroke();
     g.fillStyle='#1d2230'; g.beginPath(); g.ellipse(-2.2,0,2.2,2.9,0,0,7); g.fill();
-    const hg=g.createRadialGradient(-.6,-.6,.3,0,0,2); hg.addColorStop(0,'#fff'); hg.addColorStop(1,sk?sk.c2:shade(col,.1)); g.fillStyle=hg; g.beginPath(); g.arc(0,0,1.9,0,7); g.fill();
+    const hg=g.createRadialGradient(-.6,-.6,.3,0,0,2); hg.addColorStop(0,'#fff'); hg.addColorStop(1,(o.sk&&o.sk.helm)||(sk?sk.c2:shade(col,.1))); g.fillStyle=hg; g.beginPath(); g.arc(0,0,1.9,0,7); g.fill();
     if(kind==='mx'){ g.fillStyle='#fff'; g.fillRect(6.4,-1.6,1.6,3.2); }
     g.fillStyle=o.brake?'#ff3b3b':'#7a1018'; g.fillRect(-7.8,-.5,.8,1);
   } else if(kind==='boat'){
@@ -1540,6 +1594,7 @@ function drawCar(g,x,y,a,col,kind,o){
     if(kind==='rally'){ g.fillStyle='#14171c'; g.fillRect(3,-3.4,1.6,6.8); g.fillStyle='#fff6c8'; for(const q of [-2.5,-.8,.8,2.5]) g.fillRect(3.3,q-.5,1,1); g.fillStyle='#fff'; g.beginPath(); g.arc(-1.4,0,1.8,0,7); g.fill(); g.fillStyle='rgba(110,80,50,.5)'; for(const [x,y] of [[-L+1,-W+.5],[-L+2,W-1],[L-4,-W+.4],[L-3,W-.8]]){ g.beginPath(); g.ellipse(x,y,2,1,0,0,7); g.fill(); } }
     if(kind==='drift'){ g.fillStyle='rgba(0,0,0,.45)'; g.fillRect(-L+1.5,-W-1.1,5.5,1.1); g.fillRect(-L+1.5,W,5.5,1.1); g.fillRect(L-7.5,-W-1.1,5.5,1.1); g.fillRect(L-7.5,W,5.5,1.1); }
   }
+  decoCar(g,kind,o.sk,false);
   g.restore();
   if(o.me){ const r=16+Math.sin((o.t||0)*6)*1.5; g.strokeStyle='#ffd23f'; g.lineWidth=1.6; g.beginPath(); g.arc(x,y,r,0,7); g.stroke(); }
 }
@@ -1604,7 +1659,7 @@ function puff(x,y,sk){
 const hexRgb=h=>{ const n=parseInt(String(h).slice(1),16); return `${n>>16&255},${n>>8&255},${n&255}`; };
 const hslRgb=hh=>{ const f=n=>{ const k=(n+hh/30)%12; return Math.round(255*(.55-.45*Math.max(-1,Math.min(k-3,9-k,1)))); }; return `${f(0)},${f(8)},${f(4)}`; };
 function confettiAt(x,y){ for(let j=0;j<22;j++) parts.push({t:1,x,y,vx:rand(-80,80),vy:rand(-120,-30),life:rand(1,1.7),max:1.7,sz:rand(2,3.6),col:pick(CONF),rot:rand(0,6),vr:rand(-9,9)}); }
-function updParts(dt){ for(let j=parts.length-1;j>=0;j--){ const p=parts[j]; p.life-=dt; if(p.life<=0){ parts.splice(j,1); continue; } p.x+=p.vx*dt; p.y+=p.vy*dt; if(p.t===0){ p.sz+=dt*9; p.vx*=.96; p.vy*=.96; } else if(p.t===1){ p.vy+=150*dt; p.rot+=p.vr*dt; } else if(p.t>=4){ p.vx*=.97; p.vy*=.97; p.sz+=dt*.8; } } }
+function updParts(dt){ for(let j=parts.length-1;j>=0;j--){ const p=parts[j]; p.life-=dt; if(p.life<=0){ parts.splice(j,1); continue; } p.x+=p.vx*dt; p.y+=p.vy*dt; if(p.t===0){ p.sz+=dt*9; p.vx*=.96; p.vy*=.96; } else if(p.t===1||p.t===7||p.t===8){ p.vy+=150*dt; p.rot+=p.vr*dt; } else if(p.t>=4){ p.vx*=.97; p.vy*=.97; p.sz+=dt*.8; } } }
 function drawParts(){
   gT(ctx,VT,0);
   for(const p of parts){ const a=Math.max(0,p.life/p.max);
@@ -1613,6 +1668,8 @@ function drawParts(){
     else if(p.t===4){ ctx.globalAlpha=a; ctx.fillStyle='#ff5c9a'; heartPath(ctx,p.x,p.y,p.sz); ctx.fill(); ctx.globalAlpha=1; }
     else if(p.t===5){ ctx.globalAlpha=a; ctx.strokeStyle='rgba(205,238,255,.95)'; ctx.lineWidth=.45; ctx.beginPath(); ctx.arc(p.x,p.y,p.sz,0,7); ctx.stroke(); ctx.globalAlpha=1; }
     else if(p.t===6){ ctx.fillStyle=`rgba(255,255,255,${(a*.85).toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.sz,0,7); ctx.fill(); }
+    else if(p.t===7){ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=Math.min(1,a*1.5); ctx.fillStyle='#2e9d5c'; ctx.fillRect(-p.sz,-p.sz*.55,p.sz*2,p.sz*1.1); ctx.fillStyle='#d8ffe6'; ctx.font=`700 ${(p.sz*1.1).toFixed(2)}px sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(p.g||'€',0,.1); ctx.textBaseline='alphabetic'; ctx.restore(); }
+    else if(p.t===8){ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=Math.min(1,a*1.5); ctx.strokeStyle='#ffd84a'; ctx.lineWidth=p.sz*.6; ctx.lineCap='round'; ctx.beginPath(); ctx.arc(0,-p.sz*.6,p.sz,.4,2.7); ctx.stroke(); ctx.restore(); }
     else { ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=a; ctx.fillStyle=p.col; ctx.beginPath(); ctx.arc(p.x,p.y,p.sz,0,7); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }
   ctx.globalAlpha=1; ctx.setTransform(1,0,0,1,0,0);
 }
@@ -1730,14 +1787,10 @@ function drawFloats(dt){
     ctx.globalAlpha=Math.min(1,f.life); ctx.fillStyle='rgba(0,0,0,.6)'; ctx.fillText(f.txt,sx+1.5*DPR,sy+1.5*DPR); ctx.fillStyle=f.col; ctx.fillText(f.txt,sx,sy); }
   ctx.globalAlpha=1;
 }
-function drawLabel(q,name,col,tag){
-  const [sx,sy]=SP(VT,q.x,q.y,(q.z||0)+6), txt=name+(tag||'');
-  ctx.globalAlpha=q.ghost?.78:1;
-  ctx.font=`700 ${Math.round(12*DPR)}px Barlow, system-ui, sans-serif`; ctx.textAlign='left'; ctx.textBaseline='middle';
-  const tw=ctx.measureText(txt).width, ph=19*DPR, pw=tw+17*DPR, off=Math.max(16*DPR,12*VT.s), x=sx-pw/2, y=sy-off-ph;
-  ctx.fillStyle='rgba(8,10,13,.84)'; ctx.fillRect(x,y,pw,ph); ctx.beginPath(); ctx.moveTo(sx-4*DPR,y+ph); ctx.lineTo(sx+4*DPR,y+ph); ctx.lineTo(sx,y+ph+5*DPR); ctx.fill();
-  ctx.fillStyle=col; ctx.fillRect(x,y,3*DPR,ph);
-  ctx.fillStyle=q.fr?'#d6dce4':'#fff'; ctx.fillText(txt,x+10*DPR,y+ph/2+.5*DPR); ctx.textBaseline='alphabetic'; ctx.globalAlpha=1;
+function drawLabel(q,name,col,tag){ // plaque du pilote (style et titre achetés dans la boutique)
+  const [sx,sy]=SP(VT,q.x,q.y,(q.z||0)+6), sk=q.sk||{}, off=Math.max(16*DPR,12*VT.s);
+  ctx.setTransform(1,0,0,1,0,0); drawPlate(ctx,sx,sy-off,name+(tag||''),col,sk.plate||'std',TITLES[sk.title]||'',q.ghost);
+  const b=bubbleOf(q.me?S.profile.id:q.pid); if(b) drawBubble(ctx,sx,sy-off-(TITLES[sk.title]?36:25)*DPR,b.emo,b.age,1);
 }
 // --- voitures des amis : en direct (serveur) ou fantôme (record) ---
 const safeName=s=>String(s||'Ami').replace(/[\u0000-\u001f\u007f#]/g,'').trim().slice(0,16)||'Ami';
@@ -1761,7 +1814,7 @@ function friendCars(i,tr,c,t,meFi,meLat,dt){
     const tt=(Math.max(0,+pr.t||0)+(Date.now()-p.updatedAt)/1000)%prof.lapT, fi=fiAtTime(prof,tt), id='p:'+p.peer;
     let tgt=racingLat(tr,fi,lm); for(const [of,ol] of occ){ if(Math.abs(gapOf(fi,of))<Lc*1.5){ const s=ol>0?-1:1; tgt=clamp(ol+s*Wc,-lm,lm); if(Math.abs(tgt-ol)<Wc*.9) tgt=clamp(ol-s*Wc,-lm,lm); } }
     let lat=FRL.has(id)?FRL.get(id):tgt; lat+=(tgt-lat)*Math.min(1,dt*3); FRL.set(id,lat); occ.push([fi,lat]);
-    out.push(mkFriend(tr,fi,prof,1,id,safeName(pr.n),safeCol(pr.col),false,safeSkin(pr.sk),lat,kind));
+    const fc=mkFriend(tr,fi,prof,1,id,safeName(pr.n),safeCol(pr.col),false,pr.sk,lat,kind); fc.pid=p.by; out.push(fc);
     if(p.by) seen.add(String(p.by)); if(pr.pid) seen.add(String(pr.pid).slice(0,12));
   }
   const myP=getProf(i);
@@ -1799,7 +1852,7 @@ function draw(dt,t){
   const at=ambFor(c); if(at!==ambType) initAmb(at);
   const cars=[], inRace=race&&race.slot===i;
   if(inRace){ for(const r of race.racers){ const d=((r.dist%race.L)+race.L)%race.L, fi=d/tr.ds, [x,y,a]=posAt(tr,fi,r.lat), mv=race.time>=0;
-      cars.push({x,y,a:a+driftOf(tr,fi)+(r.yaw||0),fi,z:rideZ(tr,fi,mv?r.v:0),col:r.col,me:r.me,sk:r.me?S.shop.eq:r.sk,brake:!mv||r.brake,hard:mv&&((r.brake&&r.v>.5*r.vmax)||driftHard(tr,fi,r.v,r.vmax)),v:mv?r.v:0,vmax:r.vmax,trail:r.tr,kind,name:r.name,fr:!!(r.human&&!r.me)}); }
+      cars.push({x,y,a:a+driftOf(tr,fi)+(r.yaw||0),fi,z:rideZ(tr,fi,mv?r.v:0),col:r.col,me:r.me,sk:r.me?S.shop.eq:r.sk,brake:!mv||r.brake,hard:mv&&((r.brake&&r.v>.5*r.vmax)||driftHard(tr,fi,r.v,r.vmax)),v:mv?r.v:0,vmax:r.vmax,trail:r.tr,kind,name:r.name,fr:!!(r.human&&!r.me),pid:r.human?r.id:null}); }
     raceFx(tr); }
   else if(s.u){ const p=getProf(i), fi=fiAtTime(p,s.t), tl=racingLat(tr,fi,latMax(kind,th)); vis.lat=isFinite(vis.lat)?vis.lat+(tl-vis.lat)*Math.min(1,dt*2.5):tl;
     const [x,y,a]=posAt(tr,fi,vis.lat), v=speedAtFi(p,fi), b=brakeAt(p,fi), st=stats(c,s.lv);
@@ -2033,7 +2086,7 @@ function stdModel(kind,wing){
     P.push(prism(rectP(-8.3,-5.3,1,4.4),1,3,'#8a9099'));
     pair(s=>wheelY(-5.3,2.5,2.5,s>0?4.2:-7.4,s>0?7.4:-4.2,'#141518'));
     pair(s=>wheelY(5.8,2.2,2.2,s>0?4:-6.6,s>0?6.6:-4,'#141518'));
-    S2.push({x:-1.6,y:0,z:7.6,r:2.2,c:'c2',drv:1});
+    S2.push({x:-1.6,y:0,z:7.6,r:2.2,c:'helm',drv:1});
   } else if(kind==='formula'){
     P.push(prism([[13,-1],[5,-1.9],[5,1.9],[13,1]],.9,2.3,'c1'));
     P.push(prism(rrP(-9,5,-2.3,2.3,.9),.9,3.1,'c1',null,{dec:[{k:'poly',p:rrP(-2.4,1.6,-1.3,1.3,.6),c:'#0d1118'}]}));
@@ -2044,7 +2097,7 @@ function stdModel(kind,wing){
     pair(s=>prism(rectP(-14.2,-11.8,s>0?5.4:-5.8,s>0?5.8:-5.4),2.4,5.6,'#14171c'));
     pair(s=>wheelY(7.7,2.6,2.6,s>0?3.9:-6.9,s>0?6.9:-3.9,'#121315'));
     pair(s=>wheelY(-8.3,2.8,2.8,s>0?3.6:-7,s>0?7:-3.6,'#121315'));
-    S2.push({x:-.6,y:0,z:4.1,r:1.5,c:'c2',drv:1}); brk.push([-14.3,0,3]);
+    S2.push({x:-.6,y:0,z:4.1,r:1.5,c:'helm',drv:1}); brk.push([-14.3,0,3]);
   } else if(kind==='bike'||kind==='mx'){
     const rf=kind==='mx'?3.5:3.2;
     P.push(wheelY(6.8,rf,rf,-.75,.75,'#141518',10)); P.push(wheelY(-6.6,rf+.1,rf+.1,-.85,.85,'#141518',10));
@@ -2053,7 +2106,7 @@ function stdModel(kind,wing){
     if(kind==='bike') P.push(prism([[5,-2.3],[8.8,-.7],[8.8,.7],[5,2.3]],3,6.6,'c1')); else P.push(prism(rectP(7.2,9.6,-1.4,1.4),4.6,5.2,'c1'));
     P.push(prism(rectP(-2,3,-1.8,1.8),1.6,3.4,'#2a2e35'));
     P.push(prism(rectP(4.35,4.75,-2.7,2.7),6.35,6.62,'#1a1d22'));    P.push(prism(rectP(-3.6,.2,-2,2),5.6,9.2,'c1d',null,{drv:1}));
-    S2.push({x:1,y:0,z:10.2,r:1.9,c:'c2',drv:1}); brk.push([-8.4,0,5]); lamp.push([9,0,5]);
+    S2.push({x:1,y:0,z:10.2,r:1.9,c:'helm',drv:1}); brk.push([-8.4,0,5]); lamp.push([9,0,5]);
   } else if(kind==='boat'){
     const top=[[L+.6,0],[L*.42,-Wd],[-L*.25,-Wd],[-L,-Wd*.86],[-L,Wd*.86],[-L*.25,Wd],[L*.42,Wd]], bot=[[L*.85,0],[L*.35,-Wd*.62],[-L*.25,-Wd*.7],[-L+.4,-Wd*.6],[-L+.4,Wd*.6],[-L*.25,Wd*.7],[L*.35,Wd*.62]];
     P.push(loft(bot,.2,top,3.4,'c1','#f2f4f6'));
@@ -2061,7 +2114,7 @@ function stdModel(kind,wing){
     P.push(prism(rectP(-4,1,-3,3),3.4,5,'#e8eef2'));
     P.push(prism(rectP(-L-1.8,-L+.2,-1.4,1.4),1.6,5,'#2a2e35'));
     P.push(prism(rectP(-3.6,-.8,-1.8,1.8),5,8.4,'c1d',null,{drv:1}));
-    S2.push({x:-2.2,y:0,z:9.4,r:1.6,c:'c2',drv:1});
+    S2.push({x:-2.2,y:0,z:9.4,r:1.6,c:'helm',drv:1});
   } else {
     const proto=kind==='proto';
     P.push(prism(oct(L,Wd,proto?2.8:1.6,proto?1.2:1.1),1.1,proto?2.9:3.4,'c1'));
@@ -2438,11 +2491,11 @@ function drawTun3(tr,ch,d){ const n=tr.n, j=ch.j, j2=ch.j2, P=(jj,o,z)=>tc(tr.X[
 // --- voitures en volume (adversaires, amis, et la tienne vue de l'intérieur) ---
 function resC(c,cfg){ switch(c){
   case 'c1': return [cfg.col,1,0]; case 'roof': return [cfg.roofC||cfg.col,1,0]; case 'c1d': return [cfg.col,.64,0]; case 'c1l': return [cfg.col,1.22,0];
-  case 'c2': return [cfg.c2,1,0]; case 'c3': return [cfg.c3,1,0]; case 'glass': return ['#1d2836',1.15,0]; case 'wing': return [cfg.wingC||'#16191f',1,0];
+  case 'c2': return [cfg.c2,1,0]; case 'c3': return [cfg.c3,1,0]; case 'helm': return [cfg.helm||'#ffffff',1,0]; case 'glass': return ['#1d2836',1.15,0]; case 'wing': return [cfg.wingC||'#16191f',1,0];
   case 'brk': return cfg.brake?['#ff3030',1,1]:['#7a1018',C3.night>.2?1.5:1,C3.night>.2?1:0];
   case 'lamp': return ['#fff3c8',1,C3.night>.2?1:0];
   default: if(c.startsWith('blink')) return [hslHex(((C3.t*140)+(+c.slice(5))*36)%360,.9,.6),1,1]; return [c,1,0]; } }
-function carCfg(q,kind){ const sk=q.sk||{}, pat=sk.pat&&sk.pat!=='uni'; return {col:q.col,sk,c2:sk.c2||'#ffffff',c3:sk.c3||'#1d1f24',brake:q.brake,roofC:pat?sk.c2:null,wingC:pat?sk.c2:null,kind}; }
+function carCfg(q,kind){ const sk=q.sk||{}, pat=sk.pat&&sk.pat!=='uni'; return {col:q.col,sk,c2:sk.c2||'#ffffff',c3:sk.c3||'#1d1f24',helm:sk.helm||'#ffffff',brake:q.brake,roofC:pat?sk.c2:null,wingC:pat?sk.c2:null,kind}; }
 function drawModel3(M,q,cfg,dist){
   const ca=Math.cos(q.a), sa=Math.sin(q.a), zb=q.z||0, X=q.x, Y=q.y, hb=cfg.own?0:hlB(X,Y), sun=C3.sun, sk=C3.sunK, rows=[];
   const W3=(v)=>tc(X+v[0]*ca-v[1]*sa,Y+v[0]*sa+v[1]*ca,zb+v[2]);
@@ -2467,6 +2520,8 @@ function drawModel3(M,q,cfg,dist){
 function drawCar3(q,d,th){ const kind=q.kind||CLASSES[S.cls].kind, F=funOf(q.sk), M=carModel(kind,F?q.sk.body:'std',CLASSES[ck(S.sel).c].wing);
   const a0=ctx.globalAlpha; if(q.ghost) ctx.globalAlpha=a0*.5;
   drawModel3(M,{x:q.x,y:q.y,z:(q.z||0)+(M.hover?1.2+Math.sin(C3.t*3+q.x)*.35:0),a:q.a},carCfg(q,kind),d);
+  if(d<260) deco3(q,kind,q.sk,d);
+  const bb=bubbleOf(q.pid); if(bb){ const P=bp(q.x,q.y,(q.z||0)+15); if(P) drawBubble(ctx,P[0],P[1],bb.emo,bb.age,clamp(P[2]*.18,.55,1.5)); }
   if(q.fr&&d<320){ const P=bp(q.x,q.y,(q.z||0)+12); if(P){ ctx.font=`700 ${Math.round(Math.max(10,Math.min(15,P[2]*3))*DPR)}px Barlow, sans-serif`; ctx.textAlign='center'; ctx.fillStyle='rgba(0,0,0,.55)'; ctx.fillText(q.name,P[0]+1,P[1]+1); ctx.fillStyle='#fff'; ctx.fillText(q.name,P[0],P[1]); } }
   ctx.globalAlpha=a0; }
 function parts3(){ for(const p of parts){ const P=tc(p.x,p.y,p.t===0?1.6:1.4); if(P[2]<1.5||P[2]>420) continue; const k=C3.F/P[2], x=C3.cx+P[0]*k, y=C3.hor-P[1]*k, a=Math.max(0,p.life/p.max);
@@ -2474,6 +2529,7 @@ function parts3(){ for(const p of parts){ const P=tc(p.x,p.y,p.t===0?1.6:1.4); i
   else if(p.t===1){ ctx.fillStyle=p.col; ctx.fillRect(x-p.sz*k*.5,y-p.sz*k*.25,p.sz*k,p.sz*k*.5); }
   else if(p.t===4){ ctx.fillStyle=`rgba(255,105,160,${a.toFixed(2)})`; heartPath(ctx,x,y,p.sz*k*.7); ctx.fill(); }
   else if(p.t===5){ ctx.strokeStyle=`rgba(200,235,255,${(a*.8).toFixed(2)})`; ctx.lineWidth=Math.max(1,.25*k); ctx.beginPath(); ctx.arc(x,y,p.sz*k*.7,0,7); ctx.stroke(); }
+  else if(p.t===7||p.t===8){ ctx.globalAlpha=Math.min(1,a*1.5); ctx.fillStyle=p.t===7?'#3ecf7a':'#ffd84a'; ctx.fillRect(x-p.sz*k*.6,y-p.sz*k*.3,p.sz*k*1.2,p.sz*k*.6); ctx.globalAlpha=1; }
   else { ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=a; ctx.fillStyle=p.col; ctx.beginPath(); ctx.arc(x,y,Math.max(1,p.sz*k*.55),0,7); ctx.fill(); ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over'; } } }
 
 // --- météo sur le pare-brise (ou la visière) ---
@@ -2631,11 +2687,13 @@ function drawCockpit(dt,t,i,tr,C,th,sc,cars,me){
   ctx.setTransform(1,0,0,1,shx,shy);
   const am=C3.amb; if(C3.tun) C3.amb=am.map(v=>v*.6);
   drawModel3(M,{x:me.x,y:me.y,z:z0+hov,a:me.a},{...carCfg({col:S.profile.color,sk,brake:false},kind),own:true},4);
+  deco3({x:me.x,y:me.y,z:z0+hov,a:me.a},kind,{...sk,num:-1},4); // le sticker se voit sur ton capot
   C3.amb=am; ctx.setTransform(1,0,0,1,0,0);
   drawWeather(t,dt,true);
   const G=glassOf(kind,!!F); updGlass(dt,G,sp); drawGlass(G,kind);
   drawCockpitOverlay(kind,S.profile.color,sk,clamp(tr.KS[j]*40,-1,1),t,sp,!!F,cars,me);
   ctx.drawImage(vig,0,0);
+  const mb=bubbleOf(S.profile.id); if(mb) drawBubble(ctx,W/2,H*.3,mb.emo,mb.age,1.4); // ton emote, devant toi
 }
 
 // ================= Interface =================
@@ -2699,6 +2757,13 @@ function initDom(){
   $('btnFx').onclick=()=>{ S.opt.fx=S.opt.fx?0:1; parts.length=0; skids.length=0; refresh(); };
   $('btnGh').onclick=()=>{ S.opt.gh=S.opt.gh===0?1:0; refresh(); toast(S.opt.gh?'Voitures des amis affichées.':'Voitures des amis masquées.'); };
   $('btnSnd').onclick=()=>{ audioInit(); setSound(!S.opt.snd); if(S.opt.snd) sfx.buy(); refresh(); toast(S.opt.snd?'Son activé.':'Son coupé.'); };
+  // chat du paddock et emotes
+  $('btnChat').onclick=()=>chatOpen(!CHAT.open);
+  $('chatX').onclick=()=>chatOpen(false);
+  $('chatFr').onchange=e=>{ CHAT.fr=e.target.checked; chatSig=''; renderChat(); };
+  $('chatF').onsubmit=e=>{ e.preventDefault(); const t=$('chatT'); if(chatSend(t.value)) t.value=''; };
+  $('chatEB').onclick=()=>{ const b=$('chatEmo'); b.hidden=!b.hidden; if(!b.hidden) emoPicker(b,id=>{ chatSend('',id); b.hidden=true; }); };
+  $('btnEmo').onclick=()=>{ const p=$('emoPop'); p.hidden=!p.hidden; if(!p.hidden) emoPicker(p,id=>{ if(dirOn()) chatSend('',id); else emoteBubble(S.profile.id,id); p.hidden=true; }); };
   $('btnMus').onclick=()=>{ audioInit(); S.opt.mus=S.opt.mus?0:1; if(S.opt.mus) musicStart(); else musicStop(); save(); refresh(); toast(S.opt.mus?'Musique activée.':'Musique coupée.'); };
   // écran titre : un toucher lance le jeu… et la musique (les navigateurs demandent un geste avant de jouer du son)
   const sp=$('splash'), go=()=>{ if(sp.classList.contains('out')) return; sp.classList.add('out'); audioInit(); if(SND.ctx&&SND.ctx.state==='suspended') SND.ctx.resume(); if(S.opt.mus) musicStart(); sfx.whoosh(); setTimeout(()=>{ sp.hidden=true; },480); };
@@ -2832,15 +2897,20 @@ function openProfile(){
     body:`<div style="display:flex;flex-direction:column;gap:14px"><label class="field"><span class="eyebrow">Pseudo affiché au-dessus de ta voiture</span><input id="pIn" maxlength="16" value="${esc(S.profile.name)}"></label>
       <div class="eyebrow">Ton identifiant ami : <b id="pTagV" style="color:var(--fg);font:700 13px var(--f-m);letter-spacing:0;text-transform:none">${esc(fullTag(S.profile.name,S.profile.tag))}</b></div>
       <div class="field"><span class="eyebrow">Couleur principale (les couleurs 2 et 3 se choisissent dans la Boutique)</span><div class="swatches">${SWATCH.map(c=>`<button data-c="${c}" style="background:${c}" aria-label="Couleur ${c}"></button>`).join('')}</div></div>
+      <label class="field"><span class="eyebrow">Numéro de course (0 à 99 · vide = aucun)</span><input id="pNum" type="number" min="0" max="99" inputmode="numeric" value="${S.shop.eq.num>=0?S.shop.eq.num:''}"></label>
+      <div class="field"><span class="eyebrow">Couleur du casque</span><div class="swatches hs">${SWATCH.concat(['#ff2d55','#00e5ff','#76ff03']).map(c=>`<button data-h="${c}" style="background:${c}" aria-label="Casque ${c}"></button>`).join('')}</div></div>
       <button class="sbtn" id="pSaveTools" style="align-self:flex-start">Sauvegarde de ma partie…</button>
       <div class="mrow"><button class="mbtn ghost" id="pCancel">Annuler</button><button class="mbtn" id="pSave">Enregistrer</button></div></div>`,
-    init:root=>{ const sw=[...root.querySelectorAll('.swatches button')]; const mark=()=>sw.forEach(b=>b.classList.toggle('on',b.dataset.c===col)); mark();
+    init:root=>{ const sw=[...root.querySelectorAll('.swatches:not(.hs) button')]; const mark=()=>sw.forEach(b=>b.classList.toggle('on',b.dataset.c===col)); mark();
       sw.forEach(b=>b.onclick=()=>{ col=b.dataset.c; mark(); });
+      let helm=S.shop.eq.helm; const hs=[...root.querySelectorAll('.swatches.hs button')], markH=()=>hs.forEach(b=>b.classList.toggle('on',b.dataset.h===helm)); markH();
+      hs.forEach(b=>b.onclick=()=>{ helm=b.dataset.h; markH(); }); root._helm=()=>helm;
       const inp=root.querySelector('#pIn'); inp.focus(); inp.select();
       inp.addEventListener('input',()=>{ root.querySelector('#pTagV').textContent=fullTag(inp.value.replace(/#/g,'').trim()||'…',S.profile.tag); });
       root.querySelector('#pSaveTools').onclick=openSaveTools;
       root.querySelector('#pCancel').onclick=closeModal;
       root.querySelector('#pSave').onclick=()=>{ const n=inp.value.replace(/[#\u0000-\u001f]/g,'').trim().slice(0,16); if(!n){ inp.focus(); toast('Choisis un pseudo.'); return; }
+        const nv=root.querySelector('#pNum').value.trim(), nn=parseInt(nv,10); S.shop.eq.num=nv===''||!isFinite(nn)?-1:clamp(nn,0,99); S.shop.eq.helm=root._helm();
         const wasDbg=isDebug(); S.profile.name=n; S.profile.color=col; save(); closeModal(); buildStatic();
         if(isDebug()&&!wasDbg){ toast('Mode debug activé : argent illimité.','purple'); sfx.cup(); } else if(wasDbg&&!isDebug()) toast('Mode debug désactivé.'); else toast('Profil enregistré.','green'); }; }});
 }
@@ -2905,6 +2975,7 @@ const sfx={
   bump(s){ s=clamp(s||.4,0,1); noise(.16,.16+.28*s,420,1.2); tone(95,.16,'sine',.12+.12*s,0,48); if(s>.35) noise(.28,.1*s,2600,.7,.02); },
   invite(){ [784,1047,1319].forEach((f,i)=>tone(f,.16,'sine',.1,i*.09)); },
   land(){ tone(72,.16,'sine',.13,0,44); noise(.14,.12,320,1); },
+  fireworks(){ for(let i=0;i<6;i++){ tone(600+Math.random()*500,.25,'sine',.04,i*.22,1400); noise(.5,.22,700+Math.random()*900,.5,i*.22+.25); } },
 };
 // --- klaxons (boutique) ---
 function hornOsc(type,f,dur,vol,when,f2,bp){
@@ -3087,20 +3158,28 @@ const SHOP=[
   {id:'snd:i4m',cat:'snd',fam:'bike',n:'4 cylindres',p:0},{id:'snd:twin',cat:'snd',fam:'bike',n:'Bicylindre en V',p:50},{id:'snd:s2t',cat:'snd',fam:'bike',n:'2-temps cross',p:50},{id:'snd:mel',cat:'snd',fam:'bike',n:'Électrique',p:50},
   {id:'snd:hb',cat:'snd',fam:'boat',n:'Hors-bord',p:0},{id:'snd:jet',cat:'snd',fam:'boat',n:'Jet-ski',p:40},{id:'snd:dsl',cat:'snd',fam:'boat',n:'Diesel',p:50},{id:'snd:turb',cat:'snd',fam:'boat',n:'Turbine',p:120},
   {id:'snd:vroum',cat:'snd',fam:'*',n:'Vroum ! (à la bouche)',p:80},
+  {id:'stk:none',cat:'stk',n:'Aucun',p:0},{id:'stk:etoile',cat:'stk',n:'Étoile',p:15},{id:'stk:eclair',cat:'stk',n:'Éclair',p:20},{id:'stk:coeur',cat:'stk',n:'Cœur',p:20},{id:'stk:damier',cat:'stk',n:'Damier',p:25},
+  {id:'stk:flamme',cat:'stk',n:'Flamme',p:30},{id:'stk:smiley',cat:'stk',n:'Smiley',p:35},{id:'stk:banane',cat:'stk',n:'Banane',p:40},{id:'stk:crane',cat:'stk',n:'Tête de mort',p:45},{id:'stk:couronne',cat:'stk',n:'Couronne',p:60},
+  {id:'fete:confettis',cat:'fete',n:'Confettis',p:0},{id:'fete:bulles',cat:'fete',n:'Bulles',p:40},{id:'fete:coeurs',cat:'fete',n:'Cœurs',p:40},{id:'fete:feux',cat:'fete',n:'Feu d’artifice',p:60},{id:'fete:billets',cat:'fete',n:'Pluie de billets',p:70},{id:'fete:bananes',cat:'fete',n:'Pluie de bananes',p:70},
+  {id:'plate:std',cat:'plate',n:'Classique',p:0},{id:'plate:or',cat:'plate',n:'Or',p:40},{id:'plate:pixel',cat:'plate',n:'Pixel',p:45},{id:'plate:neon',cat:'plate',n:'Néon',p:50},{id:'plate:flammes',cat:'plate',n:'Flammes',p:60},{id:'plate:banane',cat:'plate',n:'Banane',p:70},{id:'plate:arc',cat:'plate',n:'Arc-en-ciel',p:90},
+  ...Object.entries(TITLES).map(([k,n])=>({id:'title:'+k,cat:'title',n:n||'Aucun',p:{none:0,rookie:0,dimanche:20,banane:30,as:40,afk:40,drift:50,records:60,legende:150,vitesse:200}[k]})),
+  ...EMOTES.map(e=>({id:'emo:'+e.id,cat:'emo',n:e.t||e.e,p:e.p})),
 ];
-const SHOP_CAT={pat:'Peinture',body:'Carrosserie',trail:'Traînée',glow:'Néon',smoke:'Fumée',snd:'Son moteur',horn:'Klaxon'};
-const EQ_KEY={pat:'pat',body:'body',trail:'trail',glow:'glow',smoke:'smoke',horn:'horn'};
+const SHOP_CAT={pat:'Peinture',body:'Carrosserie',stk:'Stickers',trail:'Traînée',glow:'Néon',smoke:'Fumée',fete:'Victoire',snd:'Son moteur',horn:'Klaxon',plate:'Plaque',title:'Titre',emo:'Emotes'};
+const SHOP_GROUPS=[['Véhicule',['pat','body','stk']],['Effets',['trail','glow','smoke','fete']],['Sons',['snd','horn']],['Profil',['plate','title','emo']]];
+const EQ_KEY={pat:'pat',body:'body',stk:'stk',trail:'trail',glow:'glow',smoke:'smoke',fete:'fete',horn:'horn',plate:'plate',title:'title'};
 let shopCat='pat', shopFam=null;
 const owned=id=>{ const it=SHOP.find(x=>x.id===id); return !!it&&(it.p===0||isDebug()||S.shop.own.includes(id)); };
 const tokens=()=>isDebug()?Infinity:S.shop.tok;
 function addTokens(n,why){ if(n<=0) return; S.shop.tok+=n; toast(`+${n} jeton${n>1?'s':''} ◆ ${why}`,'purple'); }
 const curFam=()=>shopFam||famOf(CLASSES[S.cls].kind);
-const isEq=it=>it.cat==='snd'?engIdFor(curFam())===it.id.split(':')[1]:S.shop.eq[EQ_KEY[it.cat]]===it.id.split(':')[1];
+const isEq=it=>it.cat==='emo'?false:it.cat==='snd'?engIdFor(curFam())===it.id.split(':')[1]:S.shop.eq[EQ_KEY[it.cat]]===it.id.split(':')[1];
 function shopBuy(id){
   const it=SHOP.find(x=>x.id===id); if(!it) return; const val=id.split(':')[1];
   if(!owned(id)){ if(tokens()<it.p){ sfx.error(); toast(`Il te manque ${it.p-S.shop.tok} jetons.`); return; } if(!isDebug()) S.shop.tok-=it.p; S.shop.own.push(id); sfx.coin(); toast(`${it.n} acheté !`,'green'); }
   if(it.cat==='snd'){ const fam=it.fam==='*'?curFam():it.fam; S.shop.eq.snd=Object.assign({},S.shop.eq.snd||{},{[fam]:val}); previewEngine(val); }
-  else { S.shop.eq[EQ_KEY[it.cat]]=val; if(it.cat==='horn'&&HORNS[val]) HORNS[val](); }
+  else if(it.cat==='emo'){ toast('Emote débloquée : envoie-la depuis le chat ou le bouton Emote sur la piste.','purple'); }
+  else { S.shop.eq[EQ_KEY[it.cat]]=val; if(it.cat==='horn'&&HORNS[val]) HORNS[val](); if(it.cat==='fete'){ const tr=track(S.sel); celebrate(tr.X[0],tr.Y[0],val); } }
   save(); renderShop(true); buildStatic();
 }
 function soundIcon(g,w,h,it){ const id=it.id.split(':')[1], P=ENG[id]||{}, r=mulberry(id.length*31+id.charCodeAt(0));
@@ -3112,8 +3191,16 @@ function soundIcon(g,w,h,it){ const id=it.id.split(':')[1], P=ENG[id]||{}, r=mul
 function shopPreview(cvs,it){
   const dpr=DPR, w=Math.round(96*dpr), h=Math.round(54*dpr); cvs.width=w; cvs.height=h; const g=cvs.getContext('2d'), C=CLASSES[S.cls];
   if(it.cat==='snd'||it.cat==='horn'){ soundIcon(g,w,h,it); return; }
-  g.fillStyle='#14181f'; g.fillRect(0,0,w,h); const k=h/26; g.setTransform(k,0,0,k,w*.58,h*.5);
-  const sk=Object.assign({},S.shop.eq); sk[EQ_KEY[it.cat]]=it.id.split(':')[1];
+  g.fillStyle='#14181f'; g.fillRect(0,0,w,h); const val=it.id.split(':')[1];
+  if(it.cat==='emo'){ const e=EMO[val]; g.textAlign='center'; g.textBaseline='middle'; if(e.e){ g.font=`${Math.round(h*.6)}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`; g.fillText(e.e,w/2,h/2+1); }
+    else { g.fillStyle=e.c; rr(g,w*.2,h*.25,w*.6,h*.5,6*dpr); g.fill(); g.fillStyle='#111'; g.font=`800 italic ${Math.round(h*.3)}px "Saira Condensed",sans-serif`; g.fillText(e.t,w/2,h/2+1); } return; }
+  if(it.cat==='plate'||it.cat==='title'){ const pl=it.cat==='plate'?val:(S.shop.eq.plate||'std'), ti=it.cat==='title'?TITLES[val]:TITLES[S.shop.eq.title]; const sv=DPR; DPR=dpr*.8; drawPlate(g,w/2,h*.78,S.profile.name,S.profile.color,pl,ti||'',false); DPR=sv; return; }
+  if(it.cat==='fete'){ const r=mulberry(val.length*13+7); for(let q=0;q<22;q++){ const x=r()*w, y=r()*h, s=(2+r()*3)*dpr; g.save(); g.translate(x,y); g.rotate(r()*6);
+      if(val==='coeurs'){ g.fillStyle='#ff5c9a'; heartPath(g,0,0,s); g.fill(); } else if(val==='bulles'){ g.strokeStyle='#cdeeff'; g.lineWidth=dpr; g.beginPath(); g.arc(0,0,s,0,7); g.stroke(); }
+      else if(val==='billets'){ g.fillStyle='#2e9d5c'; g.fillRect(-s,-s*.55,s*2,s*1.1); } else if(val==='bananes'){ g.strokeStyle='#ffd84a'; g.lineWidth=s*.6; g.lineCap='round'; g.beginPath(); g.arc(0,-s*.6,s,.4,2.7); g.stroke(); }
+      else if(val==='feux'){ g.fillStyle=pick(CONF); for(let a=0;a<8;a++){ g.fillRect(Math.cos(a*.785)*s*1.6,Math.sin(a*.785)*s*1.6,dpr*1.5,dpr*1.5); } } else { g.fillStyle=CONF[q%CONF.length]; g.fillRect(-s,-s*.5,s*2,s); } g.restore(); } return; }
+  const k=h/26; g.setTransform(k,0,0,k,w*.58,h*.5);
+  const sk=Object.assign({},S.shop.eq); sk[EQ_KEY[it.cat]]=val; if(it.cat!=='stk') sk.num=-1;
   if(it.cat==='trail'&&sk.trail!=='none'){
     for(let q=1;q<10;q++){ const x=-12-q*2.6; g.globalAlpha=q/10*.8; g.strokeStyle=sk.trail==='rainbow'?`hsl(${q*36},90%,60%)`:sk.trail==='fire'?(q>6?'#ffe08a':'#ff7a1a'):sk.trail==='electric'?'#8fe9ff':sk.trail==='stars'?'#fff4b0':sk.trail==='glow'?sk.c2:S.profile.color;
       if(sk.trail==='bulles'){ g.lineWidth=.5; g.strokeStyle='#cdeeff'; g.beginPath(); g.arc(x,(q%2?1.5:-1.5),1.2+q*.1,0,7); g.stroke(); }
@@ -3135,22 +3222,29 @@ function renderShop(force){
   const fam=curFam(), sig=shopCat+'|'+fam+'|'+JSON.stringify(S.shop.eq)+'|'+S.shop.own.length+'|'+S.profile.color+'|'+S.cls+'|'+tokens();
   $('tokN').textContent=isDebug()?'∞':fmt(S.shop.tok);
   if(!force&&sig===shopSig) return; shopSig=sig;
-  document.querySelectorAll('#shopCats button').forEach(b=>b.classList.toggle('on',b.dataset.c===shopCat));
+  const grp=SHOP_GROUPS.find(g=>g[1].includes(shopCat))||SHOP_GROUPS[0], go=c=>{ shopCat=c; if(c==='snd') shopFam=null; renderShop(true); };
+  $('shopGroups').innerHTML=SHOP_GROUPS.map(g=>`<button data-g="${g[0]}" class="${g===grp?'on':''}">${g[0]}</button>`).join('');
+  $('shopGroups').querySelectorAll('button').forEach(b=>b.onclick=()=>go(SHOP_GROUPS.find(x=>x[0]===b.dataset.g)[1][0]));
+  $('shopCats').innerHTML=grp[1].map(c=>`<button data-c="${c}" class="${c===shopCat?'on':''}">${SHOP_CAT[c]}</button>`).join('');
+  $('shopCats').querySelectorAll('button').forEach(b=>b.onclick=()=>go(b.dataset.c));
   const fb=$('shopFam'); fb.hidden=shopCat!=='snd';
   if(shopCat==='snd'){ fb.innerHTML=Object.entries(SND_FAM).map(([k,n])=>`<button data-f="${k}" class="${k===fam?'on':''}">${n}</button>`).join(''); fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{ shopFam=b.dataset.f; renderShop(true); }); }
   const box=$('shopGrid'); box.innerHTML='';
   for(const it of SHOP.filter(x=>x.cat===shopCat&&(x.cat!=='snd'||x.fam===fam||x.fam==='*'))){
     const eq=isEq(it), own=owned(it.id), b=document.createElement('button'), snd=it.cat==='snd'||it.cat==='horn';
     b.className='item'+(eq?' eq':'')+(own?'':' lock')+(!own&&tokens()<it.p?' poor':'');
-    b.innerHTML=`<canvas></canvas><span class="in">${esc(it.n)}</span><span class="ip">${eq?'Équipé':own?'Équiper':`◆ ${it.p}`}</span>${snd&&it.id!=='horn:none'?'<span class="play" title="Écouter">▶</span>':''}`;
+    b.innerHTML=`<canvas></canvas><span class="in">${esc(it.n)}</span><span class="ip">${eq?'Équipé':own?(it.cat==='emo'?'Débloquée':'Équiper'):`◆ ${it.p}`}</span>${snd&&it.id!=='horn:none'?'<span class="play" title="Écouter">▶</span>':''}`;
     shopPreview(b.querySelector('canvas'),it); b.onclick=()=>shopBuy(it.id);
     const pl=b.querySelector('.play'); if(pl) pl.onclick=e=>{ e.stopPropagation(); audioInit(); if(SND.ctx&&SND.ctx.state==='suspended') SND.ctx.resume(); const v=it.id.split(':')[1]; if(it.cat==='snd') previewEngine(v); else if(!S.opt.snd) toast('Active le son pour écouter.'); else HORNS[v](); };
     box.appendChild(b);
   }
-  const cb=$('shopCols'); cb.hidden=!(shopCat==='pat'||shopCat==='glow'||shopCat==='smoke'||shopCat==='trail'||shopCat==='body');
+  const cb=$('shopCols'); cb.hidden=!['pat','glow','smoke','trail','body','stk'].includes(shopCat);
   cb.innerHTML=['c2','c3'].map(k=>`<div class="crow"><span class="eyebrow">${k==='c2'?'Couleur 2':'Couleur 3'}</span><div class="sw2">${SWATCH.concat(['#ff2d55','#00e5ff','#76ff03']).map(c=>`<button data-k="${k}" data-c="${c}" class="${S.shop.eq[k]===c?'on':''}" style="background:${c}" aria-label="${k} ${c}"></button>`).join('')}</div></div>`).join('');
   cb.querySelectorAll('button').forEach(b=>b.onclick=()=>{ S.shop.eq[b.dataset.k]=b.dataset.c; save(); renderShop(true); buildStatic(); });
-  $('shopHint').textContent=shopCat==='snd'?`Chaque type de véhicule a ses propres sons. Ton véhicule actuel : ${SND_FAM[famOf(CLASSES[S.cls].kind)]}. ▶ pour écouter avant d'acheter.`:shopCat==='horn'?'Le klaxon retentit quand tu doubles quelqu’un en championnat. ▶ pour écouter.':shopCat==='body'?'La carrosserie remplace la forme de ton véhicule, sur toutes les pistes et en vue cockpit. La couleur principale colore le canapé et la fusée.':'';
+  $('shopHint').textContent=shopCat==='stk'?'Le sticker se colle sur ton véhicule (couleur 3) ; il se voit aussi sur ton capot en vue cockpit. Le numéro de course se choisit dans ton profil.'
+    :shopCat==='plate'?'La plaque s’affiche au-dessus de ta voiture, pour tous les joueurs.':shopCat==='title'?'Ton titre apparaît sous ton pseudo, sur la piste et dans le chat.'
+    :shopCat==='fete'?'Elle se déclenche quand tu gagnes une coupe. Clique pour la voir sur la piste.':shopCat==='emo'?'Les emotes s’envoient dans le chat (bouton 😀) ou avec le bouton Emote sur la piste, et s’affichent au-dessus de ta voiture.'
+    :shopCat==='snd'?`Chaque type de véhicule a ses propres sons. Ton véhicule actuel : ${SND_FAM[famOf(CLASSES[S.cls].kind)]}. ▶ pour écouter avant d'acheter.`:shopCat==='horn'?'Le klaxon retentit quand tu doubles quelqu’un en championnat. ▶ pour écouter.':shopCat==='body'?'La carrosserie remplace la forme de ton véhicule, sur toutes les pistes et en vue cockpit. La couleur principale colore le canapé et la fusée.':'';
 }
 
 // ================= Sauvegarde : télécharger, copier, restaurer =================
@@ -3189,7 +3283,8 @@ function migrate(){
   for(let c=0;c<=S.unl;c++) if(![0,1,2,3].some(k=>S.slots[c*4+k].u)) S.slots[c*4].u=true;
   if(!S.shop) S.shop={tok:0,own:[],eq:SHOP_EQ(),seen:[]}; S.shop.eq=Object.assign(SHOP_EQ(),S.shop.eq||{}); S.shop.own=S.shop.own||[]; S.shop.seen=S.shop.seen||[];
   if(!S.shop.eq.snd||typeof S.shop.eq.snd!=='object') S.shop.eq.snd={};
-  for(const k of ['pat','body','trail','glow','smoke','horn']) if(!SHOP.some(it=>it.id===k+':'+S.shop.eq[k])) S.shop.eq[k]=SHOP_EQ()[k];
+  for(const k of ['pat','body','trail','glow','smoke','horn','stk','plate','title','fete']) if(!SHOP.some(it=>it.id===k+':'+S.shop.eq[k])) S.shop.eq[k]=SHOP_EQ()[k];
+  S.shop.eq.num=Number.isInteger(S.shop.eq.num)&&S.shop.eq.num>=0&&S.shop.eq.num<=99?S.shop.eq.num:-1; S.shop.eq.helm=safeCol(S.shop.eq.helm); if(!Array.isArray(S.mute)) S.mute=[];
   if(S.lapsTot===undefined) S.lapsTot=0;
   if(S.trkv!==2){ S.rec=new Array(36).fill(0); S.trkv=2; S._note='Nouveaux circuits plus longs : les records ont été remis à zéro.'; }
   if(!safeTag(S.profile.tag)) S.profile.tag=newTag(); S.profile.name=safeName(S.profile.name);
@@ -3207,6 +3302,143 @@ function switchDisc(d,quiet){
   save(); buildStatic(); banner(DISC[d].n,'gold'); sfx.unlock();
   if(!quiet) toast(`${DISC[d].n} : monnaie ${DISC[d].cur}. Seule la discipline choisie roule et rapporte.`,'purple');
   return true;
+}
+
+// ================= Chat du paddock =================
+const CHAT={msgs:[],seen:0,cid:'',unread:0,open:false,out:[],fr:false,first:true};
+let chatSig='';
+const emoHtml=id=>{ const e=EMO[id]; if(!e) return ''; return e.e?`<span class="emo">${e.e}</span>`:`<span class="emo txt" style="--ec:${e.c}">${e.t}</span>`; };
+const emoOwned=id=>owned('emo:'+id);
+function chatSend(txt,emo){
+  txt=String(txt||'').replace(/[\u0000-\u001f\u007f]/g,'').trim().slice(0,140);
+  if(!txt&&!emo) return false;
+  if(!dirOn()){ toast('Le chat marche quand tu es connecté au serveur en ligne.'); return false; }
+  if(emo&&!emoOwned(emo)){ toast('Cette emote se débloque dans la Boutique › Profil › Emotes.'); return false; }
+  if(CHAT.out.length>=3){ toast('Doucement : un message à la fois.'); return false; }
+  CHAT.out.push({txt,emo:emo||''}); if(emo) emoteBubble(S.profile.id,emo); netSync(); return true;
+}
+function chatIn(cid,list){
+  if(cid&&cid!==CHAT.cid){ CHAT.cid=cid; CHAT.seen=0; CHAT.msgs=[]; CHAT.first=true; chatSig=''; } // le serveur a redémarré
+  if(!Array.isArray(list)) return; let add=0;
+  for(const m of list){ if(!m||typeof m!=='object') continue; const n=+m.n; if(!(n>CHAT.seen)) continue; CHAT.seen=n;
+    const id=String(m.id||'').slice(0,16); if(!/^[a-z0-9]{1,16}$/.test(id)) continue;
+    const msg={n,id,name:safeName(m.name),tag:safeTag(m.tag),color:safeCol(m.color),txt:String(m.txt||'').replace(/[\u0000-\u001f\u007f]/g,'').slice(0,140),emo:EMO[m.emo]?m.emo:'',ti:TITLES[m.ti]!==undefined?m.ti:'none',t:+m.t||Date.now()};
+    CHAT.msgs.push(msg); add++;
+    if(!CHAT.first){ if(msg.emo&&id!==S.profile.id) emoteBubble(id,msg.emo);
+      if(id!==S.profile.id&&!(S.mute||[]).includes(id)&&!CHAT.open){ CHAT.unread++; if(msg.txt&&S.friends.some(f=>f.id===id)) toast(`💬 ${msg.name} : ${msg.txt.slice(0,60)}`); } } }
+  CHAT.first=false; if(CHAT.msgs.length>150) CHAT.msgs.splice(0,CHAT.msgs.length-150);
+  if(add) renderChat();
+}
+function renderChat(){
+  const b=$('chatBadge'); b.hidden=!CHAT.unread||CHAT.open; b.textContent=CHAT.unread>9?'9+':String(CHAT.unread);
+  $('chatN').textContent=dirOn()?'Sois sympa : 140 caractères, ⊘ masque un pilote.':'Hors ligne : le chat marche quand tu joues sur le site en ligne.';
+  if(!CHAT.open) return;
+  const fr=new Set(S.friends.map(f=>f.id)), mute=new Set(S.mute||[]), L=$('chatL');
+  const list=CHAT.msgs.filter(m=>!mute.has(m.id)&&(!CHAT.fr||fr.has(m.id)||m.id===S.profile.id));
+  const sig=list.length+':'+(list.length?list[list.length-1].n:0)+':'+CHAT.fr+':'+dirOn(); if(sig===chatSig) return; chatSig=sig;
+  const near=L.scrollHeight-L.scrollTop-L.clientHeight<80;
+  L.innerHTML=list.length?list.map(m=>{ const me=m.id===S.profile.id, d=new Date(m.t), hh=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+      return `<li class="${me?'me':''}${fr.has(m.id)?' fr':''}"><i style="background:${m.color}"></i><div><span class="who">${esc(m.name)}<small>#${m.tag}</small>${TITLES[m.ti]?`<em>${esc(TITLES[m.ti])}</em>`:''}</span>${m.txt?`<span class="tx">${esc(m.txt)}</span>`:''}${m.emo?emoHtml(m.emo):''}</div><span class="r"><time>${hh}</time>${me?'':`<button class="mute" data-id="${m.id}" title="Masquer ce pilote">⊘</button>`}</span></li>`; }).join('')
+    :`<li class="empty">${dirOn()?'Personne n’a encore écrit. Dis bonjour au paddock !':'Connecte-toi au serveur en ligne pour discuter.'}</li>`;
+  L.querySelectorAll('.mute').forEach(x=>x.onclick=()=>{ (S.mute||(S.mute=[])).push(x.dataset.id); save(); chatSig=''; renderChat(); toast('Ce pilote est masqué dans ton chat.'); });
+  if(near||(list.length&&list[list.length-1].id===S.profile.id)) L.scrollTop=L.scrollHeight;
+}
+function chatOpen(v){ CHAT.open=v; $('chat').hidden=!v; $('btnChat').classList.toggle('on',v); if(v){ CHAT.unread=0; chatSig=''; } renderChat(); if(v) setTimeout(()=>{ const L=$('chatL'); L.scrollTop=L.scrollHeight; if(window.matchMedia('(min-width:901px)').matches) $('chatT').focus(); },0); }
+function emoPicker(box,onPick){
+  box.innerHTML=EMOTES.map(e=>{ const own=emoOwned(e.id); return `<button type="button" data-e="${e.id}" class="${own?'':'lk'}" title="${own?'Envoyer':'◆ '+e.p+' dans la boutique'}">${e.e?e.e:`<b style="background:${e.c}">${e.t}</b>`}${own?'':'<i>◆'+e.p+'</i>'}</button>`; }).join('');
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>{ const id=b.dataset.e; if(!emoOwned(id)){ toast(`Emote à débloquer dans la Boutique › Profil › Emotes (◆ ${EMO[id].p}).`); return; } onPick(id); });
+}
+
+// ================= Bulles d'emote au-dessus des voitures =================
+const BUB=new Map();
+function emoteBubble(id,emo){ BUB.set(String(id),{emo,t0:performance.now()/1000}); }
+function bubbleOf(id){ if(!id) return null; const b=BUB.get(String(id)); if(!b) return null; const age=performance.now()/1000-b.t0; if(age>4){ BUB.delete(String(id)); return null; } return {emo:b.emo,age}; }
+function drawBubble(g,x,y,emo,age,k){
+  const e=EMO[emo]; if(!e) return; const pop=Math.min(1,age/.18), fade=age>3.4?Math.max(0,(4-age)/.6):1, s=(k||1)*DPR*(.55+.45*pop)*(age<.3?1+.2*Math.sin(age/.3*Math.PI):1);
+  y-=age*5*DPR; g.save(); g.setTransform(1,0,0,1,0,0); g.globalAlpha=fade; const w=(e.e?36:e.t.length*9+20)*s, h=32*s;
+  g.fillStyle='rgba(255,255,255,.96)'; rr(g,x-w/2,y-h,w,h,9*s); g.fill(); g.beginPath(); g.moveTo(x-6*s,y-1); g.lineTo(x,y+7*s); g.lineTo(x+6*s,y-1); g.closePath(); g.fill();
+  g.textAlign='center'; g.textBaseline='middle';
+  if(e.e){ g.font=`${Math.round(21*s)}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`; g.fillStyle='#111'; g.fillText(e.e,x,y-h/2+1.5*s); }
+  else { g.fillStyle=e.c; rr(g,x-w/2+4*s,y-h+4*s,w-8*s,h-8*s,6*s); g.fill(); g.fillStyle='#111'; g.font=`800 italic ${Math.round(15*s)}px "Saira Condensed",sans-serif`; g.fillText(e.t,x,y-h/2+1*s); }
+  g.textBaseline='alphabetic'; g.restore();
+}
+
+// ================= Stickers, numéro de course, casque =================
+const STK_COL={banane:'#ffd84a',smiley:'#ffd23f',couronne:'#ffc61a',crane:'#f2f2f2'};
+function stickerPts(id){ // contour d'un sticker, rayon 1, « haut » vers -y
+  const P=[];
+  switch(id){
+    case 'etoile': for(let q=0;q<10;q++){ const a=-Math.PI/2+q*Math.PI/5, r=q%2?.45:1; P.push([Math.cos(a)*r,Math.sin(a)*r]); } break;
+    case 'eclair': P.push([.2,-1],[-.55,.1],[-.05,.1],[-.25,1],[.6,-.15],[.08,-.15]); break;
+    case 'couronne': P.push([-1,.6],[-1,-.4],[-.5,.05],[0,-.7],[.5,.05],[1,-.4],[1,.6]); break;
+    case 'coeur': for(let q=0;q<20;q++){ const t=q/20*Math.PI*2, x=16*Math.pow(Math.sin(t),3), y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); P.push([x/17,-y/17]); } break;
+    case 'flamme': for(let q=0;q<18;q++){ const t=q/18*Math.PI*2, r=.55+.45*Math.max(0,-Math.sin(t))*(1+.3*Math.cos(3*t)); P.push([Math.cos(t)*r*.8,Math.sin(t)*r*(Math.sin(t)<0?1.6:.9)+.15]); } break;
+    case 'banane': for(let q=0;q<=10;q++){ const a=.5+q/10*2.15; P.push([Math.cos(a)*1.25,-.55+Math.sin(a)*1.25]); } for(let q=10;q>=0;q--){ const a=.5+q/10*2.15; P.push([Math.cos(a)*.75,-.55+Math.sin(a)*.75]); } break;
+    default: for(let q=0;q<16;q++){ const a=q/16*Math.PI*2; P.push([Math.cos(a),Math.sin(a)]); }
+  }
+  return P;
+}
+function drawSticker(g,id,x,y,s,col){ if(!id||id==='none') return; g.save(); g.translate(x,y); g.rotate(Math.PI/2);
+  if(id==='damier'){ for(let a=0;a<4;a++) for(let b=0;b<4;b++){ g.fillStyle=(a+b)%2?'#111':'#fff'; g.fillRect(-s+a*s/2,-s+b*s/2,s/2,s/2); } g.restore(); return; }
+  g.beginPath(); stickerPts(id).forEach(([u,v],q)=>q?g.lineTo(u*s,v*s):g.moveTo(u*s,v*s)); g.closePath(); g.fillStyle=STK_COL[id]||col; g.fill(); g.strokeStyle='rgba(0,0,0,.45)'; g.lineWidth=Math.max(.2,s*.1); g.stroke();
+  if(id==='smiley'){ g.fillStyle='#111'; g.beginPath(); g.arc(-s*.33,-s*.2,s*.12,0,7); g.arc(s*.33,-s*.2,s*.12,0,7); g.fill(); g.strokeStyle='#111'; g.lineWidth=s*.12; g.beginPath(); g.arc(0,0,s*.55,.35,2.8); g.stroke(); }
+  if(id==='crane'){ g.fillStyle='#111'; g.beginPath(); g.arc(-s*.35,-s*.12,s*.22,0,7); g.arc(s*.35,-s*.12,s*.22,0,7); g.fill(); g.fillRect(-s*.08,s*.22,s*.16,s*.22); }
+  g.restore(); }
+function drawNum(g,num,x,y,s){ if(!(num>=0)) return; g.save(); g.translate(x,y); g.rotate(Math.PI/2); g.fillStyle='#fff'; g.beginPath(); g.arc(0,0,s,0,7); g.fill(); g.strokeStyle='#111'; g.lineWidth=s*.12; g.stroke();
+  g.fillStyle='#111'; g.font=`800 ${s*1.25}px "Saira Condensed",sans-serif`; g.textAlign='center'; g.textBaseline='middle'; g.fillText(String(num),0,s*.08); g.textBaseline='alphabetic'; g.restore(); }
+// emplacement du sticker et du numéro sur chaque véhicule [x, y, taille] (repère de la voiture, x vers l'avant)
+const DECO={car:{stk:[7.2,0,2.3],num:[-1.2,0,2.6]},rally:{stk:[7.2,0,2.3],num:[-1.2,0,2.6]},drift:{stk:[7.2,0,2.3],num:[-1.2,0,2.6]},proto:{stk:[8.6,0,2.2],num:[-6,0,2.4]},
+  formula:{stk:[-6,0,1.5],num:[8.8,0,1.4]},kart:{stk:[-6.6,0,1.6],num:[6.9,0,1.6]},bike:{stk:[1,0,1.3],num:[7,0,1.2]},mx:{stk:[1,0,1.3],num:[7.4,0,1.2]},boat:{stk:[6,0,2.2],num:[-2.4,0,2.2]}};
+function decoCar(g,kind,sk,fun){ if(!sk) return; const D2=DECO[kind]||DECO.car;
+  if(fun){ const [sx,sy]=funScale(kind); if(sk.stk&&sk.stk!=='none') drawSticker(g,sk.stk,3*sx,0,2.4*sx,sk.c3||'#fff'); drawNum(g,sk.num,-4*sx,0,2.4*sx); return; }
+  if(sk.stk&&sk.stk!=='none') drawSticker(g,sk.stk,D2.stk[0],D2.stk[1],D2.stk[2],sk.c3||'#fff'); drawNum(g,sk.num,D2.num[0],D2.num[1],D2.num[2]); }
+// hauteur du dessus de chaque véhicule pour poser sticker et numéro en vue cockpit
+const DECO_Z={car:{stk:3.42,num:5.52},rally:{stk:3.42,num:5.52},drift:{stk:3.42,num:5.52},proto:{stk:2.92,num:2.92},formula:{stk:4.62,num:2.32},kart:{stk:2.22,num:2.22},bike:{stk:5.82,num:6.62},mx:{stk:5.82,num:5.22},boat:{stk:3.42,num:3.42}};
+const DECO_3D={car:{stk:[7.4,0,2],num:[-2.9,0,2.1]},rally:{stk:[7.4,0,2],num:[-2.9,0,2.1]},drift:{stk:[7.4,0,2],num:[-2.9,0,2.1]},proto:{stk:[8.6,0,2],num:[-7,0,2]},formula:{stk:[-6,0,1.2],num:[9,0,1.1]},kart:{stk:[7,0,1.5],num:[-6.6,0,1.4]},bike:{stk:[1,0,1.1],num:[7.6,0,1]},mx:{stk:[1,0,1.1],num:[8.4,0,1]},boat:{stk:[7,0,2],num:[-6,0,2]}};
+function deco3(q,kind,sk,dist){ // sticker et numéro sur une voiture en vue cockpit
+  if(!sk||(sk.body&&sk.body!=='std')) return; const P=DECO_3D[kind], Z=DECO_Z[kind]; if(!P) return; const ca=Math.cos(q.a), sa=Math.sin(q.a), zb=q.z||0;
+  const W3=(lx,ly,z)=>tc(q.x+lx*ca-ly*sa,q.y+lx*sa+ly*ca,zb+z);
+  if(sk.stk&&sk.stk!=='none'&&sk.stk!=='damier'){ const [cx,cy,s]=P.stk; ctx.beginPath(); if(pp(stickerPts(sk.stk).map(([u,v])=>W3(cx-v*s,cy+u*s,Z.stk)))){ ctx.fillStyle=lit(STK_COL[sk.stk]||sk.c3||'#ffffff',1,dist); ctx.fill(); } }
+  if(sk.num>=0&&dist<160){ const [cx,cy,s]=P.num, ring=[]; for(let a=0;a<14;a++){ const t=a/14*Math.PI*2; ring.push(W3(cx+Math.cos(t)*s,cy+Math.sin(t)*s,Z.num)); }
+    ctx.beginPath(); if(pp(ring)){ ctx.fillStyle=lit('#ffffff',1,dist); ctx.fill(); const c=W3(cx,cy,Z.num); if(c[2]>NEAR){ const k=C3.F/c[2], fs=s*1.3*k; if(fs>5){ ctx.fillStyle=lit('#111111',1,dist); ctx.font=`800 ${Math.round(fs)}px "Saira Condensed",sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(String(sk.num),C3.cx+c[0]*k,C3.hor-c[1]*k); ctx.textBaseline='alphabetic'; } } } }
+}
+
+// ================= Plaques de pilote (au-dessus de la voiture) =================
+function drawPlate(g,cx,y,txt,col,plate,title,ghost){
+  g.font=`700 ${Math.round(12*DPR)}px Barlow, system-ui, sans-serif`; const tw=g.measureText(txt).width; let w2=0;
+  if(title){ g.font=`600 ${Math.round(9.5*DPR)}px Barlow, system-ui, sans-serif`; w2=g.measureText(title).width; }
+  const ph=(title?30:19)*DPR, pw=Math.max(tw,w2)+(plate==='banane'?30:17)*DPR, x=cx-pw/2, top=y-ph, t=ENV.t;
+  g.save(); g.globalAlpha=ghost?.78:1;
+  switch(plate){
+    case 'or': { const gr=g.createLinearGradient(0,top,0,y); gr.addColorStop(0,'#ffe680'); gr.addColorStop(1,'#c8961e'); g.fillStyle=gr; g.fillRect(x,top,pw,ph); g.strokeStyle='#7a5a10'; g.lineWidth=1.5*DPR; g.strokeRect(x,top,pw,ph); break; }
+    case 'neon': g.fillStyle='rgba(10,8,25,.92)'; g.fillRect(x,top,pw,ph); g.shadowColor='#4dd0e1'; g.shadowBlur=10*DPR; g.strokeStyle='#4dd0e1'; g.lineWidth=1.6*DPR; g.strokeRect(x,top,pw,ph); g.shadowBlur=0; break;
+    case 'flammes': { const gr=g.createLinearGradient(0,top,0,y); gr.addColorStop(0,'#ffb030'); gr.addColorStop(1,'#d8321a'); g.fillStyle=gr; g.fillRect(x,top,pw,ph); g.fillStyle='#ffb030'; for(let q=0;q<Math.floor(pw/(7*DPR));q++){ const fx=x+q*7*DPR, fh=(3+2*Math.sin(t*9+q*1.7))*DPR; g.beginPath(); g.moveTo(fx,top); g.lineTo(fx+3.5*DPR,top-fh); g.lineTo(fx+7*DPR,top); g.fill(); } break; }
+    case 'arc': g.fillStyle='rgba(8,10,13,.88)'; g.fillRect(x,top,pw,ph); { const gr=g.createLinearGradient(x,0,x+pw,0); for(let q=0;q<=6;q++) gr.addColorStop(q/6,`hsl(${(t*90+q*60)%360},90%,60%)`); g.strokeStyle=gr; g.lineWidth=2*DPR; g.strokeRect(x,top,pw,ph); } break;
+    case 'pixel': g.fillStyle='#000'; g.fillRect(x,top,pw,ph); g.fillStyle='#fff'; { const p=2*DPR; g.fillRect(x+p,top,pw-2*p,p); g.fillRect(x+p,y-p,pw-2*p,p); g.fillRect(x,top+p,p,ph-2*p); g.fillRect(x+pw-p,top+p,p,ph-2*p); } break;
+    case 'banane': g.fillStyle='#ffd84a'; g.fillRect(x,top,pw,ph); g.strokeStyle='#5a3b1c'; g.lineWidth=1.5*DPR; g.strokeRect(x,top,pw,ph); break;
+    default: g.fillStyle='rgba(8,10,13,.84)'; g.fillRect(x,top,pw,ph); g.fillStyle=col; g.fillRect(x,top,3*DPR,ph);
+  }
+  g.fillStyle={or:'#c8961e',banane:'#ffd84a',flammes:'#d8321a',pixel:'#000000'}[plate]||'rgba(8,10,13,.88)';
+  g.beginPath(); g.moveTo(cx-4*DPR,y); g.lineTo(cx+4*DPR,y); g.lineTo(cx,y+5*DPR); g.fill();
+  const tc2=plate==='or'||plate==='banane'?'#2a1d00':plate==='neon'?'#bff6ff':'#fff';
+  g.textAlign='left'; g.textBaseline='middle'; g.font=`700 ${Math.round(12*DPR)}px Barlow, system-ui, sans-serif`; g.fillStyle=tc2;
+  const tx=x+(plate==='banane'?24:10)*DPR; if(plate==='banane'){ g.font=`${Math.round(13*DPR)}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`; g.fillText('🍌',x+5*DPR,top+9.5*DPR); g.font=`700 ${Math.round(12*DPR)}px Barlow, system-ui, sans-serif`; }
+  g.fillText(txt,tx,top+9.5*DPR+.5*DPR);
+  if(title){ g.font=`600 ${Math.round(9.5*DPR)}px Barlow, system-ui, sans-serif`; g.fillStyle=plate==='or'||plate==='banane'?'#5a4100':plate==='neon'?'#4dd0e1':'#c9b6ff'; g.fillText(title,tx,top+22*DPR); }
+  g.textBaseline='alphabetic'; g.restore();
+}
+
+// ================= Célébration de victoire (boutique) =================
+function celebrate(x,y,type){
+  const P=o=>{ if(parts.length<460) parts.push(o); };
+  switch(type){
+    case 'feux': for(let b=0;b<6;b++){ const cx=x+rand(-60,60), cy=y+rand(-60,60), col=pick(['#ff4d5a','#ffd23f','#4dd0e1','#b388ff','#4fe08a','#ffffff']); for(let q=0;q<26;q++){ const a=q/26*Math.PI*2, v=rand(40,80); P({t:2,x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(.8,1.3),max:1.3,sz:rand(1,1.8),col}); } } sfx.fireworks(); break;
+    case 'billets': for(let q=0;q<40;q++) P({t:7,x:x+rand(-30,30),y:y+rand(-20,10),vx:rand(-70,70),vy:rand(-120,-30),life:rand(1.2,2),max:2,sz:rand(2.4,3.4),g:pick(['€','$','£','¥']),rot:rand(0,6),vr:rand(-6,6)}); sfx.coin(); break;
+    case 'bananes': for(let q=0;q<34;q++) P({t:8,x:x+rand(-30,30),y:y+rand(-20,10),vx:rand(-70,70),vy:rand(-120,-30),life:rand(1.2,2),max:2,sz:rand(2.4,3.6),rot:rand(0,6),vr:rand(-8,8)}); break;
+    case 'bulles': for(let q=0;q<50;q++) P({t:5,x:x+rand(-40,40),y:y+rand(-30,30),vx:rand(-20,20),vy:rand(-30,0),life:rand(1.2,2.2),max:2.2,sz:rand(1.5,3.5)}); break;
+    case 'coeurs': for(let q=0;q<40;q++) P({t:4,x:x+rand(-40,40),y:y+rand(-30,30),vx:rand(-30,30),vy:rand(-40,0),life:rand(1.2,2.2),max:2.2,sz:rand(1.6,3)}); break;
+    default: confettiAt(x,y);
+  }
 }
 
 // ================= Rafraîchissement de l'interface (5 fois / s) =================
@@ -3322,12 +3554,14 @@ function refresh(){
 }
 
 // ================= Championnat : simulation au pas fixe, identique chez tous les joueurs d'une même course =================
-function aiLevels(T,rng){ // les adversaires ont le même total de points, répartis au hasard (le gain ne compte pas en course)
-  const R=rng||Math.random, rd=(a,b)=>a+R()*(b-a), gs=rd(.12,.24), P=T*(1-gs)*rd(.98,1.07), w=[rd(.8,1.25),rd(.8,1.25),rd(.8,1.25)], sw=w[0]+w[1]+w[2];
-  return [clamp(Math.round(P*w[0]/sw),0,100),clamp(Math.round(P*w[1]/sw),0,100),clamp(Math.round(P*w[2]/sw),0,100)];
-}
+// Niveau des adversaires selon la coupe : 25 niveaux partout gagnent la Bronze, 50 l'Argent, 75 l'Or et 100 le Diamant.
+// Les adversaires ont en moyenne les trois quarts de ces niveaux (vitesse, accélération, freinage) : un pilote équilibré qui
+// atteint juste le seuil d'ouverture fait jeu égal avec eux, et celui qui a le niveau visé les bat nettement.
+const AI_STAT=[18.75,37.5,56.25,75];
+function aiLevels(cup,rng){ const R=rng||Math.random, rd=(a,b)=>a+R()*(b-a), P=AI_STAT[cup]*3*rd(.97,1.03), w=[rd(.88,1.14),rd(.88,1.14),rd(.88,1.14)], sw=w[0]+w[1]+w[2];
+  return [0,1,2].map(u=>clamp(Math.round(P*w[u]/sw),0,100)); }
 const RH=1/60;
-const skinOut=()=>{ const e=S.shop.eq; return {pat:e.pat,c2:e.c2,c3:e.c3,trail:e.trail,glow:e.glow,smoke:e.smoke,body:e.body,horn:e.horn}; };
+const skinOut=()=>{ const e=S.shop.eq; return {pat:e.pat,c2:e.c2,c3:e.c3,trail:e.trail,glow:e.glow,smoke:e.smoke,body:e.body,horn:e.horn,stk:e.stk,plate:e.plate,title:e.title,num:e.num,helm:e.helm}; };
 const myGridEntry=i=>({id:S.profile.id,n:S.profile.name,c:S.profile.color,lv:S.slots[i].lv.slice(0,3),b:S.bonus.slice(0,3),sk:skinOut(),h:1});
 function buildRace(def){
   const i=def.slot, {c}=ck(i), tr=track(i), C=CLASSES[c], kind=C.kind, old=WXG; let racers;
@@ -3349,7 +3583,7 @@ function raceStep(dt){
   else { rc.acc+=dt*rc.speed; while(race===rc&&rc.acc>=RH&&n<7200){ rc.acc-=RH; stepRace(rc); n++; } if(n>=7200) rc.acc=0; }
 }
 function laneFree(rs,r,lat,gapOf){
-  for(const o of rs){ if(o===r) continue; const g=gapOf(r,o); if(g<-(r.L+o.L+5)||g>r.L*5) continue;
+  for(const o of rs){ if(o===r) continue; const g=gapOf(r,o); if(g<-(r.L+o.L+2)||g>r.L*3) continue;
     if(Math.abs(o.lat-lat)<r.Wd+o.Wd+1.2) return false;
     if(Math.abs(g)<r.L+o.L&&o.lat>Math.min(r.lat,lat)-r.Wd&&o.lat<Math.max(r.lat,lat)+r.Wd) return false; }
   return true;
@@ -3361,7 +3595,7 @@ function stepRace(rc){
   if(rc.beeps<6){ rc.beeps=6; if(vis) sfx.go(); }
   const gapOf=(a,b)=>{ const g=((b.dist-a.dist)%L+L)%L; return g>L/2?g-L:g; }; // > 0 : b est devant a
   for(const r of rs){
-    const lap=Math.floor(r.dist/L); if(lap!==r.lap){ r.lap=lap; r.f=r.human?.988+rng()*.024:.965+rng()*.07; }
+    const lap=Math.floor(r.dist/L); if(lap!==r.lap){ r.lap=lap; r.f=r.human?.99+rng()*.02:.975+rng()*.05; }
     const d=((r.dist%L)+L)%L, fi=d/ds; let vt=Math.max(8,speedAtFi(r.prof,fi))*r.f; if(r.done) vt*=.55;
     if(r.mis>0) r.mis-=RH; else if(!r.human&&rng()<.0006) r.mis=.5+rng()*.5; // moment d'inattention : l'IA peut mal juger un dépassement
     const pref=racingLat(tr,fi,lm);
@@ -3377,6 +3611,8 @@ function stepRace(rc){
       } else latT=r.latT; }
     for(const o of rs){ if(o===r) continue; const g=gapOf(r,o); if(Math.abs(g)<r.L+o.L+2){ const dl=r.lat-o.lat, need=r.Wd+o.Wd+1.5;
       if(Math.abs(dl)<need+1.5){ const sg=dl===0?(r.lat>0?-1:1):Math.sign(dl), t=o.lat+sg*need; if(Math.abs(t)<=lm) latT=t; } } } // esquive : on garde ses distances sur le côté
+    if(!r.human&&!ah){ for(const o of rs){ if(o===r) continue; const g=gapOf(r,o); // une voiture plus rapide arrive derrière : on lui laisse la place
+      if(g<0&&g>-(r.L+o.L)*2.2&&o.v>r.v*1.01&&Math.abs(o.lat-r.lat)<r.Wd+o.Wd+1){ const sg=r.lat>=o.lat?1:-1, t=clamp(o.lat+sg*(r.Wd+o.Wd+2),-lm,lm); if(Math.abs(t-o.lat)>=r.Wd+o.Wd) latT=t; else latT=clamp(o.lat-sg*(r.Wd+o.Wd+2),-lm,lm); break; } } }
     r.latT=latT;
     r.vlat+=clamp((latT-r.lat)*8-r.vlat*4,-60,60)*RH; r.vlat=clamp(r.vlat,-16,16); r.lat+=r.vlat*RH;
     if(r.lat>lm){ r.lat=lm; if(r.vlat>0) r.vlat=0; } if(r.lat<-lm){ r.lat=-lm; if(r.vlat<0) r.vlat=0; }
@@ -3421,10 +3657,12 @@ function finishRace(){
   const lead=order[0].time, nm=r=>esc(r.me?S.profile.name:r.name)+(r.human&&!r.me?' ◆':'');
   const pod=[1,0,2].map(p=>{ const r=order[p]; return `<div class="pl p${p+1} ${r.me?'me':''}"><span class="car" style="background:${r.col}"></span><span class="nm">${nm(r)}</span><div class="blk">${p+1}</div></div>`; }).join('');
   const rest=order.slice(3).map((r,q)=>`<li class="${r.me?'me':''}"><span class="p">${q+4}</span><span>${nm(r)}</span><span class="tt">+${(r.time-lead).toFixed(3).replace('.',',')}</span></li>`).join('');
-  if(pos===0){ if(S.opt.fx&&S.sel===i){ const tr=track(i); confettiAt(tr.X[0],tr.Y[0]); } sfx.win(); } else if(pos<3) sfx.cup(); else sfx.lose();
+  const fete=pos===0&&S.sel===i; // victoire : la célébration choisie dans la boutique joue d'abord sur la piste
+  if(pos===0){ if(S.opt.fx&&S.sel===i){ const tr=track(i); celebrate(tr.X[0],tr.Y[0],S.shop.eq.fete); } sfx.win(); horn(); } else if(pos<3) sfx.cup(); else sfx.lose();
   afterRace(rc);
-  showModal({ey:`${CUPS[rc.cup].n} · ${track(i).name}`,title:pos===0?'Victoire !':pos<3?`Podium : ${pos+1}ᵉ`:`${pos+1}ᵉ place`,
-    body:`<div style="display:flex;flex-direction:column;gap:12px"><div class="podium">${pod}</div><ol class="res">${rest}</ol><div><div class="eyebrow">${prize>0?'Prix':'Aucun prix (hors podium)'} · vainqueur en ${fmtTime(lead)}</div><div class="bigp">${prize>0?'+'+money(prize):'0 '+DISC[D].cur}</div></div>${extra}</div>`});
+  if(fete) banner('Victoire !','gold');
+  setTimeout(()=>showModal({ey:`${CUPS[rc.cup].n} · ${track(i).name}`,title:pos===0?'Victoire !':pos<3?`Podium : ${pos+1}ᵉ`:`${pos+1}ᵉ place`,
+    body:`<div style="display:flex;flex-direction:column;gap:12px"><div class="podium">${pod}</div><ol class="res">${rest}</ol><div><div class="eyebrow">${prize>0?'Prix':'Aucun prix (hors podium)'} · vainqueur en ${fmtTime(lead)}</div><div class="bigp">${prize>0?'+'+money(prize):'0 '+DISC[D].cur}</div></div>${extra}</div>`}),fete?1800:0);
   save(); refresh();
 }
 function afterRace(rc){ if(rc.net&&rc.net.guest&&rc.net.prevSel!==undefined&&!S.slots[rc.slot].u&&ck(rc.net.prevSel).c<=S.unl) select(rc.net.prevSel); }
@@ -3446,13 +3684,13 @@ function openGrid(cup){
 const perfPts=lv=>(lv?lv[0]+lv[1]+lv[2]:0);
 function lobState(id){ const rp=LOB.rep[id]; if(rp) return rp.ok?'ok':'no'; return dirOn()&&onlineIds().has(id)?'wait':'off'; }
 function renderLob(force){
-  const L=$('lobL'); if(!LOB||!L) return; const i=LOB.i, pts=CUPS[LOB.cup].pts, on=onlineIds(), est=Math.round(pts*.82);
+  const L=$('lobL'); if(!LOB||!L) return; const i=LOB.i, pts=CUPS[LOB.cup].pts, on=onlineIds(), est=Math.round(AI_STAT[LOB.cup]*3);
   const sig=JSON.stringify([LOB.sel,LOB.rep,[...on].sort(),LOB.niv,LOB.pick,S.friends.length,netState]); if(!force&&sig===LOB.sig) return; LOB.sig=sig;
   const st={ok:['ok','Prêt ✓','Court en direct avec toi'],wait:['wait','Invité…','En attente de sa réponse'],no:['','Refusé','Court avec sa voiture'],off:['','Hors ligne','Court avec sa voiture']};
   let h=`<li class="me"><i class="sw" style="background:${S.profile.color}"></i><span class="n">${esc(fullTag(S.profile.name,S.profile.tag))}<small>Toi</small></span><span class="pt">niv. ${perfPts(S.slots[i].lv)}</span><span class="badge me">Toi</span></li>`;
   for(const id of LOB.sel){ const f=S.friends.find(x=>x.id===id); if(!f) continue; const s0=st[lobState(id)], nv=LOB.rep[id]&&LOB.rep[id].ok?LOB.rep[id]:LOB.niv[id], p=nv&&perfPts(nv.lv)>0?'niv. '+perfPts(nv.lv):`niv. ~${est}`;
     h+=`<li><i class="sw" style="background:${f.color}"></i><span class="n">${esc(fullTag(f.name,safeTag(f.tag)))}<small>${s0[2]}</small></span><span class="pt">${p}</span><span style="display:flex;align-items:center;gap:4px"><span class="badge ${s0[0]}">${s0[1]}</span><button class="x" data-rm="${esc(id)}" title="Retirer de la grille">×</button></span></li>`; }
-  const nAI=7-LOB.sel.length; if(nAI>0) h+=`<li><i class="sw" style="background:var(--dim)"></i><span class="n">${nAI} pilote${nAI>1?'s':''} IA<small>Même total de points que la coupe</small></span><span class="pt">niv. ~${est}</span><span class="badge">IA</span></li>`;
+  const nAI=7-LOB.sel.length; if(nAI>0) h+=`<li><i class="sw" style="background:var(--dim)"></i><span class="n">${nAI} pilote${nAI>1?'s':''} IA<small>Adversaires de la coupe (3/4 du niveau visé)</small></span><span class="pt">niv. ~${est}</span><span class="badge">IA</span></li>`;
   L.innerHTML=h; L.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{ LOB.sel=LOB.sel.filter(x=>x!==b.dataset.rm); renderLob(true); });
   const P=$('lobP'); P.hidden=!LOB.pick;
   if(LOB.pick){ const av=S.friends.filter(f=>!LOB.sel.includes(f.id));
@@ -3470,9 +3708,9 @@ async function fetchNiv(){ if(!LOB) return; const lb=LOB, ids=S.friends.map(f=>f
 function buildGrid(){
   const i=LOB.i, pts=CUPS[LOB.cup].pts, me=myGridEntry(i), fr=[];
   for(const id of LOB.sel){ const f=S.friends.find(x=>x.id===id); if(!f) continue; const rp=LOB.rep[id], ok=rp&&rp.ok, nv=ok?rp:LOB.niv[id];
-    fr.push({id,n:f.name,c:f.color,lv:nv&&perfPts(nv.lv)>0?nv.lv.slice(0,3):aiLevels(pts),b:(nv&&nv.b)||[0,0,0],sk:ok?rp.sk:null,h:ok?1:0}); }
+    fr.push({id,n:f.name,c:f.color,lv:nv&&perfPts(nv.lv)>0?nv.lv.slice(0,3):aiLevels(LOB.cup),b:(nv&&nv.b)||[0,0,0],sk:ok?rp.sk:null,h:ok?1:0}); }
   const names=AI_NAMES.slice().sort(()=>Math.random()-.5), cols=AI_COLS.filter(x=>x!==S.profile.color).sort(()=>Math.random()-.5), ai=[];
-  for(let a=0;a<7-fr.length;a++) ai.push({id:'ia'+a,n:names[a],c:cols[a%cols.length],lv:aiLevels(pts),b:[0,0,0],sk:null,h:0});
+  for(let a=0;a<7-fr.length;a++) ai.push({id:'ia'+a,n:names[a],c:cols[a%cols.length],lv:aiLevels(LOB.cup),b:[0,0,0],sk:null,h:0});
   const others=fr.concat(ai).sort(()=>Math.random()-.5); others.splice(3,0,me); return others;
 }
 function lobGo(){
@@ -3552,7 +3790,8 @@ const dirOn=()=>netState==='ok';
 const netAuto=()=>(location.protocol==='http:'||location.protocol==='https:')?location.origin:(S.net||'');
 const SKV={}; const skv=cat=>SKV[cat]||(SKV[cat]=SHOP.filter(it=>it.cat===cat).map(it=>it.id.split(':')[1]));
 function safeSkin(k){ if(!k||typeof k!=='object') return null; const ok=(cat,v,d)=>skv(cat).includes(v)?v:d;
-  return {pat:ok('pat',k.pat,'uni'),c2:safeCol(k.c2),c3:safeCol(k.c3),trail:ok('trail',k.trail,'classic'),glow:ok('glow',k.glow,'none'),smoke:ok('smoke',k.smoke,'white'),body:ok('body',k.body,'std'),horn:ok('horn',k.horn,'none')}; }
+  const nm=Math.round(+k.num); return {pat:ok('pat',k.pat,'uni'),c2:safeCol(k.c2),c3:safeCol(k.c3),trail:ok('trail',k.trail,'classic'),glow:ok('glow',k.glow,'none'),smoke:ok('smoke',k.smoke,'white'),body:ok('body',k.body,'std'),horn:ok('horn',k.horn,'none'),
+    stk:ok('stk',k.stk,'none'),plate:ok('plate',k.plate,'std'),title:ok('title',k.title,'none'),num:nm>=0&&nm<=99?nm:-1,helm:/^#[0-9a-f]{6}$/i.test(k.helm)?k.helm:'#ffffff'}; }
 function normPlayer(p){
   if(!p||typeof p!=='object') return null; const id=String(p.id||'').slice(0,16); if(!/^[a-z0-9]{1,16}$/.test(id)) return null;
   const rec={}; if(p.rec&&typeof p.rec==='object') for(const k in p.rec){ const j=+k, v=+p.rec[k]; if(j>=0&&j<400&&v>0) rec[j]=v/1000; }
@@ -3590,11 +3829,13 @@ async function netSync(){
   if(LOB) body.salon={cup:LOB.cup,d:LOB.d,i:LOB.i,cls:ck(LOB.i).c,inv:LOB.sel.filter(id=>onlineIds().has(id)),go:LOB.go?1:0,grid:LOB.go?LOB.go.grid:undefined,wxg:LOB.go?LOB.go.wxg:undefined};
   else if(LOB_FIN) body.salon={fin:1};
   if(REP_OUT) body.rep=REP_OUT;
+  body.cs=CHAT.seen; if(CHAT.out.length) body.chat=CHAT.out[0];
   const t0=Date.now();
   try{
     const r=await api('/api/sync',body), t1=Date.now(), now=Date.now(); applyTag(r.tag);
     if(+r.now>0){ SRVS.push([t1-t0,+r.now-(t0+t1)/2]); if(SRVS.length>12) SRVS.shift(); let b=SRVS[0]; for(const x of SRVS) if(x[0]<b[0]) b=x; SRV_OFF=b[1]; }
     if(body.lvs){ LVS_SENT=lsig; LVS_T=Date.now(); } if(body.salon&&body.salon.fin) LOB_FIN=false; if(REP_OUT&&!REP_OUT.ok) REP_OUT=null;
+    if(body.chat) CHAT.out.shift(); chatIn(r.cid,r.chat);
     livePeers=(Array.isArray(r.online)?r.online:[]).map(p=>{ const q=normPlayer(p); if(!q||q.id===S.profile.id) return null;
       return {peer:q.id,by:q.id,isMe:false,kind:'viewer',updatedAt:now-clamp(+p.age||0,0,30)*1000,presence:{tp:1,n:q.name,tg:q.tag,col:q.color,pid:q.id,cls:q.cls,sel:clamp(Math.round(+p.sel)||0,0,35),lv:p.lv,b:p.b,t:+p.t||0,race:p.race?1:0,sk:safeSkin(p.sk),d:clamp(Math.round(+p.d)||0,0,DISC.length-1)}}; }).filter(Boolean);
     if(r.dirVer!==dirVer){ const d=await api('/api/dir'); dir=(Array.isArray(d.players)?d.players:[]).map(normPlayer).filter(Boolean); dirVer=r.dirVer; syncDir(); }

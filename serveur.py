@@ -36,6 +36,10 @@ verrou = threading.Lock()
 joueurs = {}          # id -> {"id","name","tag","color","cls","rec","lvs","bns","vu"}
 direct = {}           # id -> {"sel","lv","b","t","race","recu"}
 salons = {}           # id de l'hôte -> grille de départ d'un championnat entre amis
+chat = []             # derniers messages du chat du paddock (en mémoire)
+chat_n = 0
+chat_rythme = {}      # id -> heures des derniers messages (anti-flood)
+CHAT_ID = "%06x" % random.getrandbits(24)   # change à chaque démarrage : les jeux repartent de zéro
 version_annuaire = 1
 a_sauver = False
 
@@ -85,16 +89,53 @@ def records_propres(v):
     return out
 
 
-SKIN_DEF = {"pat": "uni", "trail": "classic", "glow": "none", "smoke": "white", "body": "std", "horn": "none"}
+SKIN_DEF = {"pat": "uni", "trail": "classic", "glow": "none", "smoke": "white", "body": "std", "horn": "none",
+            "stk": "none", "plate": "std", "title": "none"}
 
 
 def skin_propre(v):
     """Apparence de la voiture (boutique) : de simples mots-clés, vérifiés ensuite par le jeu."""
     v = v if isinstance(v, dict) else {}
     out = {k: (str(v.get(k)) if RE_VAL.match(str(v.get(k) or "")) else d) for k, d in SKIN_DEF.items()}
-    for k in ("c2", "c3"):
+    for k in ("c2", "c3", "helm"):
         out[k] = str(v.get(k)) if RE_COULEUR.match(str(v.get(k) or "")) else "#ffffff"
+    out["num"] = entier(v.get("num"), -1, 99, -1)
     return out
+
+
+def texte_propre(v):
+    s = "".join(ch for ch in str(v or "") if ch >= " " and ch != "\x7f")
+    return " ".join(s.split())[:140]
+
+
+def chat_ajout(pid, j, m):
+    """Ajoute un message (texte ou emote) ; 6 messages au plus par tranche de 10 secondes et par pilote."""
+    global chat_n
+    if not isinstance(m, dict):
+        return
+    txt = texte_propre(m.get("txt"))
+    emo = str(m.get("emo") or "")
+    emo = emo if RE_VAL.match(emo) else ""
+    if not txt and not emo:
+        return
+    maintenant = time.time()
+    r = [x for x in chat_rythme.get(pid, []) if maintenant - x < 10]
+    if len(r) >= 6:
+        return
+    r.append(maintenant)
+    chat_rythme[pid] = r
+    sk = (direct.get(pid) or {}).get("sk") or {}
+    chat_n += 1
+    chat.append({"n": chat_n, "id": pid, "name": j["name"], "tag": j["tag"], "color": j["color"], "txt": txt, "emo": emo,
+                 "ti": sk.get("title", "none"), "pl": sk.get("plate", "std"), "t": round(maintenant * 1000)})
+    del chat[:-150]
+
+
+def chat_depuis(cs):
+    cs = entier(cs, 0, 10 ** 12, 0)
+    if cs <= 0:
+        return chat[-30:]
+    return [m for m in chat if m["n"] > cs][-60:]
 
 
 def niveaux_propres(v):
@@ -297,6 +338,8 @@ def entretien():
                 del direct[pid]
             for pid in [p for p, s in salons.items() if maintenant - s.get("maj", 0) > 30 or (s["etat"] == "go" and maintenant * 1000 - s["t0"] > 900000)]:
                 del salons[pid]
+            for pid in [p for p, r in chat_rythme.items() if not r or maintenant - r[-1] > 30]:
+                del chat_rythme[pid]
 
 
 class Requete(BaseHTTPRequestHandler):
@@ -391,8 +434,11 @@ class Requete(BaseHTTPRequestHandler):
                     salon_maj(pid, d.get("salon"))
                 if "rep" in d:
                     salon_reponse(pid, d.get("rep"))
+                if "chat" in d:
+                    chat_ajout(pid, j, d.get("chat"))
                 corps = {"ok": True, "tag": j["tag"], "dirVer": version_annuaire, "online": en_ligne(pid),
-                         "invits": invitations(pid), "now": round(time.time() * 1000)}
+                         "invits": invitations(pid), "now": round(time.time() * 1000),
+                         "cid": CHAT_ID, "chat": chat_depuis(d.get("cs"))}
                 if pid in salons:
                     corps["salon"] = vue_salon(salons[pid], pid)
         if corps is None:
