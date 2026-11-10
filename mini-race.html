@@ -265,7 +265,7 @@ svg{display:block}
     padding:8px max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
   .left,.right{grid-area:panel}
   .center{grid-template-rows:auto auto;gap:8px}
-  .stage{height:min(60vw,42vh)}
+  .stage{height:min(72vw,46vh);min-height:220px}
   .tele{grid-template-columns:repeat(3,minmax(0,1fr))}
   .tc:nth-child(n+4){display:none}
   .tc{padding:5px 8px}.tc .v{font-size:14px}.tc .s{display:none}
@@ -283,7 +283,7 @@ svg{display:block}
   .gauge{width:42px;height:42px}.gauge .n{font-size:12px;padding:0}.gauge .u{display:none}
   .laptime .l{font-size:9px}.laptime .v{font-size:13px}
   .h-br{right:8px;bottom:8px}
-  .hbtn{padding:5px 7px}.hbtn span{display:none}
+  .hbtn{padding:8px 10px}.hbtn span:not([data-ico]){display:none}.hbtn svg{width:19px;height:19px}
   .tower{top:auto;bottom:8px;left:8px;width:168px}
   .tower li{height:17px;padding:0 6px;font-size:10.5px;gap:5px}
   .tower .th{font-size:12px;padding:4px 6px}
@@ -469,6 +469,21 @@ svg{display:block}
 .invite .t{font:800 17px/1.1 var(--f-d);text-transform:uppercase;letter-spacing:.03em}
 .invite p{font-size:13px;color:#c3cad4;margin:0}
 .invite .mrow .mbtn{padding:9px;font-size:14px}
+/* tablette et téléphone : indicateur « en ligne » réduit au nombre de pilotes */
+@media (max-width:900px){
+  .netchip{font-size:0;gap:6px;padding:0 10px;height:32px}
+  .netchip::after{content:attr(data-n);font:700 13px var(--f-m);color:var(--fg)}
+}
+/* téléphone : en-tête sur deux lignes, gros boutons faciles à toucher */
+@media (max-width:600px){
+  .iconbtn{width:32px;height:32px}
+  .pchip{max-width:104px;height:32px;padding:0 8px 0 6px;font-size:12px;gap:6px}
+  .top{gap:6px}
+  .top .stat .l{font-size:8.5px;letter-spacing:.1em}
+  .tower{width:150px}
+  .cats button{padding:7px 10px}
+  .item .play{width:30px;height:30px;font-size:12px}
+}
 .discs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
 .dsc{display:flex;justify-content:space-between;align-items:center;gap:4px;padding:6px 8px;border:1px solid var(--line);background:var(--panel2);font:700 13px var(--f-d);text-transform:uppercase;letter-spacing:.03em;color:var(--muted);min-width:0;position:relative}
 .dsc span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -3137,6 +3152,7 @@ function refresh(){
   const nc=$('netChip'), nOn=livePeers.length+1, nd=dir.length;
   nc.className='netchip'+(netState==='ok'?' ok':netState==='loading'||netState==='lost'?' warn':'');
   nc.textContent=netState==='ok'?`En ligne · ${nOn} pilote${nOn>1?'s':''}`:netState==='loading'?'Connexion…':netState==='lost'?'Reconnexion…':netState==='err'?'Serveur injoignable':'Hors ligne';
+  nc.dataset.n=netState==='ok'?String(nOn):netState==='loading'||netState==='lost'?'…':'—'; // version courte sur téléphone
   $('netNote').textContent=netState==='ok'?`Tes amis t’ajoutent avec ${fullTag(S.profile.name,S.profile.tag)}. ${nd} pilote${nd>1?'s':''} inscrit${nd>1?'s':''} sur ce serveur.`
     :netState==='err'?'Serveur injoignable : vérifie l’adresse et que serveur.py est bien lancé.':netState==='loading'?'Connexion au serveur…':netState==='lost'?'Connexion perdue, nouvel essai automatique…'
     :'Hors ligne. Pour jouer en direct, ouvre le jeu depuis le serveur (lien Render ou serveur.py). Sans serveur, ajoute tes amis avec leur code ami.';
@@ -3194,7 +3210,8 @@ function refresh(){
     $('twTitle').textContent=CUPS[race.cup].n+(race.net?' · en ligne':''); $('twLap').textContent=`Tour ${Math.min(RACE_LAPS,Math.max(1,Math.floor(me.dist/race.L)+1))}/${RACE_LAPS}`;
     const order=race.racers.slice().sort((a,b)=>(b.done-a.done)||(a.done?a.time-b.time:b.dist-a.dist)), lead=order[0], mp=order.indexOf(me)+1;
     if(race.time>1&&lastPos&&mp<lastPos){ banner(`Dépassement ! ${ord(mp)}`,'gold'); sfx.whoosh(); horn(); } lastPos=mp;
-    $('twList').innerHTML=order.map((r,p)=>`<li class="${r.me?'me':''}"><span class="p">${p+1}</span><span class="sw" style="background:${r.col}"></span><span class="n">${esc(r.me?S.profile.name:r.name)}${r.human&&!r.me?' ◆':''}</span><span class="g">${p===0?'':'+'+Math.max(0,(lead.dist-r.dist)/(race.L/r.prof.lapT)).toFixed(1)+'s'}</span></li>`).join('');
+    const narrow=$('stage').clientWidth<560; // petit écran : le podium et toi seulement
+    $('twList').innerHTML=order.map((r,p)=>narrow&&p>2&&!r.me?'':`<li class="${r.me?'me':''}"><span class="p">${p+1}</span><span class="sw" style="background:${r.col}"></span><span class="n">${esc(r.me?S.profile.name:r.name)}${r.human&&!r.me?' ◆':''}</span><span class="g">${p===0?'':'+'+Math.max(0,(lead.dist-r.dist)/(race.L/r.prof.lapT)).toFixed(1)+'s'}</span></li>`).join('');
   } else { tw.hidden=true; lastPos=0; }
   // haut
   $('money').textContent=dbg?'∞':money(S.money); $('rate').textContent=money(rate)+'/s'; $('dbgChip').hidden=!dbg;
