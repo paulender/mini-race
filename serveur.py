@@ -7,8 +7,9 @@ Lancement :  python serveur.py          (port 8000)
 Il sert le jeu (mini-race.html, dans le même dossier) et relie les joueurs en direct.
 Aucune installation : Python 3.8 ou plus suffit.
 
-Ce qu'il garde dans joueurs.json : pseudo#numéro, couleur, classe et meilleurs tours de chaque pilote.
-Les positions en direct restent en mémoire. N'importe qui ayant l'adresse peut jouer :
+Ce qu'il garde dans joueurs.json : pseudo#numéro, couleur, classe, meilleurs tours et niveaux des
+voitures de chaque pilote (pour les grilles de départ entre amis).
+Les positions en direct et les grilles de départ restent en mémoire. N'importe qui ayant l'adresse peut jouer :
 ne la donne qu'à tes amis.
 """
 import json
@@ -28,17 +29,21 @@ FICHIER_JOUEURS = os.path.join(DOSSIER, "joueurs.json")
 PORT = int(os.environ.get("PORT") or (sys.argv[1] if len(sys.argv) > 1 else 8000))
 EN_LIGNE = 6.0        # secondes sans nouvelles avant de passer hors ligne
 MAX_JOUEURS = 5000
-MAX_CORPS = 16384     # taille maximale d'une requête, en octets
+MAX_CORPS = 65536     # taille maximale d'une requête, en octets
+MAX_SALONS = 500
 
 verrou = threading.Lock()
-joueurs = {}          # id -> {"id","name","tag","color","cls","rec","vu"}
+joueurs = {}          # id -> {"id","name","tag","color","cls","rec","lvs","bns","vu"}
 direct = {}           # id -> {"sel","lv","b","t","race","recu"}
+salons = {}           # id de l'hôte -> grille de départ d'un championnat entre amis
 version_annuaire = 1
 a_sauver = False
 
 RE_ID = re.compile(r"^[a-z0-9]{1,16}$")
+RE_IA = re.compile(r"^ia\d$")
 RE_TAG = re.compile(r"^\d{4}$")
 RE_COULEUR = re.compile(r"^#[0-9a-fA-F]{6}$")
+RE_VAL = re.compile(r"^[a-z0-9_]{1,16}$")
 
 
 def nom_propre(v):
@@ -80,19 +85,110 @@ def records_propres(v):
     return out
 
 
-SKIN_OK = {"pat": ("uni", "bande", "bi", "tri", "degrade", "damier", "flammes", "camo", "chrome"),
-           "trail": ("none", "classic", "glow", "rainbow", "fire", "electric", "stars"),
-           "glow": ("none", "on", "pulse", "rainbow"),
-           "smoke": ("white", "black", "color", "rainbow", "sparks")}
+SKIN_DEF = {"pat": "uni", "trail": "classic", "glow": "none", "smoke": "white", "body": "std", "horn": "none"}
 
 
 def skin_propre(v):
-    """Apparence de la voiture (boutique) : seules les valeurs connues passent."""
+    """Apparence de la voiture (boutique) : de simples mots-clés, vérifiés ensuite par le jeu."""
     v = v if isinstance(v, dict) else {}
-    out = {k: (v.get(k) if v.get(k) in ok else ok[0 if k != "trail" else 1]) for k, ok in SKIN_OK.items()}
+    out = {k: (str(v.get(k)) if RE_VAL.match(str(v.get(k) or "")) else d) for k, d in SKIN_DEF.items()}
     for k in ("c2", "c3"):
         out[k] = str(v.get(k)) if RE_COULEUR.match(str(v.get(k) or "")) else "#ffffff"
     return out
+
+
+def niveaux_propres(v):
+    """Niveaux (vitesse, accélération, freinage) de chaque circuit : clé = discipline × 36 + circuit."""
+    out = {}
+    if isinstance(v, dict):
+        for k, lv in list(v.items())[:400]:
+            j = entier(k, -1, 999, -1)
+            if 0 <= j < 400:
+                l3 = liste(lv, 3, 0, 100)
+                if sum(l3) > 0:
+                    out[str(j)] = l3
+    return out
+
+
+def bonus_propres(v):
+    out = {}
+    if isinstance(v, dict):
+        for k, b in list(v.items())[:8]:
+            d = entier(k, -1, 7, -1)
+            if d >= 0:
+                out[str(d)] = liste(b, 3, 0, 30)
+    return out
+
+
+def grille_propre(g):
+    """Grille de départ envoyée par l'hôte : 8 pilotes au plus (joueurs ou IA)."""
+    out = []
+    if not isinstance(g, list):
+        return out
+    for e in g[:8]:
+        if not isinstance(e, dict):
+            continue
+        gid = str(e.get("id") or "")
+        if not (RE_ID.match(gid) or RE_IA.match(gid)):
+            continue
+        out.append({"id": gid, "n": nom_propre(e.get("n")), "c": str(e.get("c")) if RE_COULEUR.match(str(e.get("c") or "")) else "#9aa4b2",
+                    "lv": liste(e.get("lv"), 3, 0, 100), "b": liste(e.get("b"), 3, 0, 30),
+                    "sk": skin_propre(e.get("sk")) if isinstance(e.get("sk"), dict) else None, "h": 1 if e.get("h") else 0})
+    return out
+
+
+def salon_maj(pid, s):
+    """L'hôte ouvre, met à jour, lance ou ferme sa grille (le verrou est tenu par l'appelant)."""
+    if not isinstance(s, dict) or s.get("fin"):
+        salons.pop(pid, None)
+        return
+    sa = salons.get(pid)
+    if sa is None:
+        if len(salons) >= MAX_SALONS:
+            return
+        sa = {"sid": "%08x" % random.getrandbits(32), "hote": pid, "etat": "ouvert", "rep": {}, "t0": 0, "seed": 0, "grid": [], "wxg": 1.0, "inv": []}
+        salons[pid] = sa
+    sa["maj"] = time.time()
+    if sa["etat"] != "ouvert":
+        return
+    sa["cup"] = entier(s.get("cup"), 0, 3)
+    sa["d"] = entier(s.get("d"), 0, 7)
+    sa["i"] = entier(s.get("i"), 0, 35)
+    sa["cls"] = entier(s.get("cls"), 0, 8)
+    inv = s.get("inv") if isinstance(s.get("inv"), list) else []
+    sa["inv"] = [str(x) for x in inv[:7] if RE_ID.match(str(x)) and str(x) != pid]
+    if s.get("go"):
+        grille = grille_propre(s.get("grid"))
+        if len(grille) >= 2:
+            sa["grid"] = grille
+            sa["etat"] = "go"
+            sa["t0"] = time.time() * 1000 + 4500      # départ commun dans 4,5 s, à l'heure du serveur
+            sa["seed"] = random.getrandbits(31)
+            sa["wxg"] = nombre(s.get("wxg"), 0.5, 1.0)
+
+
+def salon_reponse(pid, r):
+    """Un invité accepte ou refuse (avant le départ)."""
+    if not isinstance(r, dict):
+        return
+    sa = salons.get(str(r.get("hote") or ""))
+    if not sa or sa["sid"] != str(r.get("sid") or "") or pid not in sa.get("inv", []) or sa["etat"] != "ouvert":
+        return
+    sa["rep"][pid] = {"ok": 1 if r.get("ok") else 0, "lv": liste(r.get("lv"), 3, 0, 100), "b": liste(r.get("b"), 3, 0, 30), "sk": skin_propre(r.get("sk"))}
+
+
+def vue_salon(sa, pour):
+    j = joueurs.get(sa["hote"]) or {}
+    rep = sa["rep"] if pour == sa["hote"] else ({pour: sa["rep"][pour]} if pour in sa["rep"] else {})
+    return {"sid": sa["sid"], "hote": sa["hote"], "nom": j.get("name", "Pilote"), "tag": j.get("tag", "0000"), "col": j.get("color", "#9aa4b2"),
+            "cup": sa.get("cup", 0), "d": sa.get("d", 0), "i": sa.get("i", 0), "cls": sa.get("cls", 0), "etat": sa["etat"],
+            "t0": sa["t0"], "seed": sa["seed"], "wxg": sa["wxg"], "grid": sa["grid"] if sa["etat"] == "go" else [], "rep": rep}
+
+
+def invitations(pid):
+    maintenant = time.time()
+    return [vue_salon(sa, pid) for sa in salons.values()
+            if pid in sa.get("inv", []) and maintenant - sa.get("maj", 0) < 20]
 
 
 def numero_libre(nom, tag, pid):
@@ -119,8 +215,13 @@ def enregistrer(d, pid):
     if nouveau:
         if len(joueurs) >= MAX_JOUEURS:
             return None
-        j = {"id": pid, "name": "Pilote", "tag": "0000", "color": "#9aa4b2", "cls": 0, "rec": {}, "vu": 0}
+        j = {"id": pid, "name": "Pilote", "tag": "0000", "color": "#9aa4b2", "cls": 0, "rec": {}, "lvs": {}, "bns": {}, "vu": 0}
         joueurs[pid] = j
+    if "lvs" in d:
+        lvs, bns = niveaux_propres(d.get("lvs")), bonus_propres(d.get("bns"))
+        if lvs != j.get("lvs") or bns != j.get("bns"):
+            j["lvs"], j["bns"] = lvs, bns
+            a_sauver = True
     nom = nom_propre(d.get("name"))
     couleur = str(d.get("color")) if RE_COULEUR.match(str(d.get("color") or "")) else j["color"]
     tag = numero_libre(nom, str(d.get("tag") or j["tag"]), pid)
@@ -161,6 +262,7 @@ def charger():
                                 "tag": str(j.get("tag")) if RE_TAG.match(str(j.get("tag"))) else "0000",
                                 "color": str(j.get("color")) if RE_COULEUR.match(str(j.get("color"))) else "#9aa4b2",
                                 "cls": entier(j.get("cls"), 0, 8), "rec": records_propres(j.get("rec")),
+                                "lvs": niveaux_propres(j.get("lvs")), "bns": bonus_propres(j.get("bns")),
                                 "vu": nombre(j.get("vu"), 0, 4e9)}
     except FileNotFoundError:
         pass
@@ -173,7 +275,7 @@ def sauver():
     with verrou:
         if not a_sauver:
             return
-        data = {"joueurs": [dict(j, rec=dict(j["rec"])) for j in joueurs.values()]}
+        data = {"joueurs": [dict(j, rec=dict(j["rec"]), lvs=dict(j.get("lvs") or {}), bns=dict(j.get("bns") or {})) for j in joueurs.values()]}
         a_sauver = False
     tmp = FICHIER_JOUEURS + ".tmp"
     try:
@@ -188,10 +290,13 @@ def entretien():
     while True:
         time.sleep(10)
         sauver()
-        limite = time.time() - 60
+        maintenant = time.time()
+        limite = maintenant - 60
         with verrou:
             for pid in [p for p, e in direct.items() if e["recu"] < limite]:
                 del direct[pid]
+            for pid in [p for p, s in salons.items() if maintenant - s.get("maj", 0) > 30 or (s["etat"] == "go" and maintenant * 1000 - s["t0"] > 900000)]:
+                del salons[pid]
 
 
 class Requete(BaseHTTPRequestHandler):
@@ -258,6 +363,17 @@ class Requete(BaseHTTPRequestHandler):
         pid = str(d.get("id") or "")
         if not RE_ID.match(pid):
             return self.envoyer(400, {"error": "identifiant invalide"})
+        if chemin == "/api/niv":
+            # niveaux des voitures de tes amis sur un circuit, pour les aligner sur ta grille de départ
+            k = str(entier(d.get("k"), 0, 399))
+            ids = d.get("ids") if isinstance(d.get("ids"), list) else []
+            out = {}
+            with verrou:
+                for x in ids[:30]:
+                    j = joueurs.get(str(x))
+                    if j and (j.get("lvs") or {}).get(k):
+                        out[str(x)] = {"lv": j["lvs"][k], "b": (j.get("bns") or {}).get(str(int(k) // 36), [0, 0, 0])}
+            return self.envoyer(200, {"niv": out})
         if chemin not in ("/api/hello", "/api/sync"):
             return self.envoyer(404, {"error": "introuvable"})
         with verrou:
@@ -265,13 +381,20 @@ class Requete(BaseHTTPRequestHandler):
             if j is None:
                 corps = None
             elif chemin == "/api/hello":
-                corps = {"ok": True, "tag": j["tag"], "dirVer": version_annuaire}
+                corps = {"ok": True, "tag": j["tag"], "dirVer": version_annuaire, "now": round(time.time() * 1000)}
             else:
                 direct[pid] = {"sel": entier(d.get("sel"), 0, 35), "lv": liste(d.get("lv"), 3, 0, 100),
                                "b": liste(d.get("b"), 3, 0, 30), "t": nombre(d.get("t"), 0, 3600),
                                "race": 1 if d.get("race") else 0, "sk": skin_propre(d.get("sk")), "d": entier(d.get("d"), 0, 7),
                                "recu": time.time()}
-                corps = {"ok": True, "tag": j["tag"], "dirVer": version_annuaire, "online": en_ligne(pid)}
+                if "salon" in d:
+                    salon_maj(pid, d.get("salon"))
+                if "rep" in d:
+                    salon_reponse(pid, d.get("rep"))
+                corps = {"ok": True, "tag": j["tag"], "dirVer": version_annuaire, "online": en_ligne(pid),
+                         "invits": invitations(pid), "now": round(time.time() * 1000)}
+                if pid in salons:
+                    corps["salon"] = vue_salon(salons[pid], pid)
         if corps is None:
             return self.envoyer(503, {"error": "serveur plein"})
         self.envoyer(200, corps)
